@@ -1,4 +1,4 @@
-#pragma glslify: random = require(../utils/random.glsl)
+#pragma glslify: random = require(../utils/random2d.glsl)
 
 uniform sampler2D tDiffuse;
 uniform float uNoiseMultiplier;
