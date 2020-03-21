@@ -1,8 +1,11 @@
 uniform float uSize;
+uniform float uPositionRandomness;
 
-attribute float randomness;
+attribute float alpha;
+attribute float size;
 
 varying vec3 vColor;
+varying float vAlpha;
 
 #pragma glslify: random1d = require(../utils/random1d.glsl)
 
@@ -13,7 +16,7 @@ void main()
 
     float xAngle = random1d(position.x) * 3.1415 * 2.0;
     float yAngle = random1d(position.y) * 3.1415 * 2.0;
-    float radius = random1d(position.z) * 0.03;
+    float radius = random1d(position.z) * uPositionRandomness;
 
     modelPosition.y += cos(xAngle) * radius;
     modelPosition.z += sin(xAngle) * radius;
@@ -27,8 +30,12 @@ void main()
 
     // Size
     gl_PointSize = uSize;
+    gl_PointSize *= size;
     gl_PointSize *= (1.0 / - viewPosition.z);
 
     // Color
     vColor = color;
+
+    // Alpha
+    vAlpha = alpha;
 }

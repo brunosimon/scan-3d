@@ -1,44 +1,73 @@
 import * as THREE from 'three'
-import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 import source from './resources/scans/1.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 
 export default class Particles
 {
-    constructor()
+    constructor(_options = {})
     {
+        this.debug = _options.debug
+
+        // Set up
         this.container = new THREE.Group()
 
-        // Material
-        // this.material = new THREE.PointsMaterial({
-        //     sizeAttenuation: true,
-        //     size: 0.015,
-        //     vertexColors: THREE.VertexColors,
-        //     blending: THREE.AdditiveBlending,
-        //     transparent: true,
-        //     opacity: 1
-        // })
-        this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 10
+        // Debug
+        if(this.debug)
+        {
+            this.debug.Register({
+                type: 'folder',
+                label: 'particles',
+                open: true
+            })
+        }
 
+        // Material
+        this.material = new ParticlesMaterial()
+        this.material.uniforms.uSize.value = 30
+        this.material.uniforms.uPositionRandomness.value = 0.02
+        this.material.uniforms.uAlpha.value = 1
+
+        if(this.debug)
+        {
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uSize',
+                min: 1,
+                max: 100,
+                object: this.material.uniforms.uSize,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uPositionRandomness',
+                min: 0,
+                max: 0.3,
+                step: 0.0001,
+                object: this.material.uniforms.uPositionRandomness,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uAlpha',
+                min: 0,
+                max: 1,
+                step: 0.001,
+                object: this.material.uniforms.uAlpha,
+                property: 'value'
+            })
+        }
+
+        // Geometry
         this.geometry = this.parseSource(source)
+
+        // Points
         this.points = new THREE.Points(this.geometry, this.material)
         this.container.add(this.points)
-
-        // // Loaders
-        // this.plyLoader = new PLYLoader()
-        // this.objLoader = new OBJLoader()
-
-        // // Load
-        // this.plyLoader.load(
-        //     source,
-        //     (_a) =>
-        //     {
-        //         this.points = new THREE.Points(_a, this.material)
-        //         this.container.add(this.points)
-        //     }
-        // )
     }
 
     parseSource(_source)
@@ -65,7 +94,8 @@ export default class Particles
         const geometry = new THREE.BufferGeometry()
         const positionArray = new Float32Array(count * 3)
         const colorArray = new Float32Array(count * 3)
-        const randomnessArray = new Float32Array(count * 1)
+        const alphaArray = new Float32Array(count * 1)
+        const sizeArray = new Float32Array(count * 1)
 
         // Get vertices
         const verticesLines = verticesPart.split(/\n/).slice(0, count)
@@ -84,12 +114,14 @@ export default class Particles
             colorArray[verticeIndex + 1] = parseInt(parsedLine[5]) / 255
             colorArray[verticeIndex + 2] = parseInt(parsedLine[6]) / 255
 
-            randomnessArray[verticeIndex] = Math.random()
+            alphaArray[verticeIndex] = 0.2 + Math.random() * 0.8
+            sizeArray[verticeIndex] = Math.random()
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
         geometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3))
-        geometry.setAttribute('randomness', new THREE.BufferAttribute(randomnessArray, 1))
+        geometry.setAttribute('alpha', new THREE.BufferAttribute(alphaArray, 1))
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1))
 
         return geometry
     }

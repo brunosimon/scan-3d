@@ -142,7 +142,7 @@ export default class Application
      */
     setParticles()
     {
-        this.particles = new Particles
+        this.particles = new Particles({ debug: this.debug })
         this.scene.add(this.particles.container)
     }
 }

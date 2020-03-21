@@ -14,7 +14,9 @@ export default function()
         depthTest: false,
         uniforms:
         {
-            uSize: { value: null }
+            uSize: { value: null },
+            uPositionRandomness: { value: null },
+            uAlpha: { value: null }
         }
     })
 }

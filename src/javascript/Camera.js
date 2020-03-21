@@ -15,10 +15,10 @@ export default class Camera
         // Set up
         this.mode = 'orbitControls'
 
-        if(!this.debug)
-        {
-            this.mode = 'default'
-        }
+        // if(!this.debug)
+        // {
+        //     this.mode = 'default'
+        // }
 
         // Debug
         if(this.debug)
@@ -48,8 +48,8 @@ export default class Camera
     {
         // Set up
         this.instance = new THREE.PerspectiveCamera(75, this.config.width / this.config.height, 0.1, 150)
-        this.instance.position.set(0, 0, 5)
-        this.instance.lookAt(new THREE.Vector3())
+        this.instance.position.set(0, 1.8, - 4)
+        this.instance.lookAt(new THREE.Vector3(0, 1.8, 0))
 
         // Resize event
         this.sizes.on('resize', () =>
@@ -147,82 +147,14 @@ export default class Camera
                 }
             })
         }
-
-        /**
-         * Rotation
-         */
-        this.default.rotation = {}
-        this.default.rotation.amplitude = {}
-        this.default.rotation.amplitude.value = 0.45
-        this.default.rotation.amplitude.x = this.sizes.width / this.sizes.height * this.default.rotation.amplitude.value
-        this.default.rotation.amplitude.y = this.sizes.height / this.sizes.width * this.default.rotation.amplitude.value
-        this.default.rotation.target = {}
-        this.default.rotation.target.x = 0
-        this.default.rotation.target.y = 0
-        this.default.rotation.value = {}
-        this.default.rotation.value.x = 0
-        this.default.rotation.value.y = 0
-        this.default.rotation.easing = 0.02
-
-        window.addEventListener('mousemove', (_event) =>
-        {
-            this.default.rotation.target.x = _event.clientX / this.sizes.width - 0.5
-            this.default.rotation.target.y = _event.clientY / this.sizes.height - 0.5
-        })
-
-        this.time.on('tick', () =>
-        {
-            this.default.rotation.value.x += (this.default.rotation.target.x - this.default.rotation.value.x) * this.default.rotation.easing
-            this.default.rotation.value.y += (this.default.rotation.target.y - this.default.rotation.value.y) * this.default.rotation.easing
-
-            this.default.instance.rotation.x = this.default.rotation.value.y * this.default.rotation.amplitude.y
-            this.default.instance.rotation.y = this.default.rotation.value.x * this.default.rotation.amplitude.x
-        })
-
-        this.sizes.on('resize', () =>
-        {
-            this.default.rotation.amplitude.x = this.sizes.width / this.sizes.height * this.default.rotation.amplitude.value
-            this.default.rotation.amplitude.y = this.sizes.height / this.sizes.width * this.default.rotation.amplitude.value
-        })
-
-        // Debug
-        if(this.debug)
-        {
-            this.debug.Register({
-                folder: 'camera',
-                type: 'range',
-                min: 0.001,
-                max: 0.2,
-                step: 0.001,
-                label: 'rotationEasing',
-                object: this.default.rotation,
-                property: 'easing'
-            })
-
-            this.debug.Register({
-                folder: 'camera',
-                type: 'range',
-                min: 0,
-                max: 1,
-                step: 0.001,
-                label: 'rotationAmplitude',
-                object: this.default.rotation.amplitude,
-                property: 'value',
-                onChange: () =>
-                {
-                    this.default.rotation.amplitude.x = this.sizes.width / this.sizes.height * this.default.rotation.amplitude.value
-                    this.default.rotation.amplitude.y = this.sizes.height / this.sizes.width * this.default.rotation.amplitude.value
-                }
-            })
-        }
     }
 
     setOrbitControls()
     {
-        if(!this.debug)
-        {
-            return
-        }
+        // if(!this.debug)
+        // {
+        //     return
+        // }
 
         // Set up
         this.orbitControls = {}
@@ -232,5 +164,9 @@ export default class Camera
         this.orbitControls.controls.screenSpacePanning = true
         this.orbitControls.controls.enableKeys = false
         this.orbitControls.controls.zoomSpeed = 0.5
+        this.orbitControls.controls.target.y = 1.4
+        this.orbitControls.controls.update()
+
+        console.log(this.orbitControls.controls)
     }
 }
