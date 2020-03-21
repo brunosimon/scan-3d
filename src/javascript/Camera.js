@@ -165,8 +165,15 @@ export default class Camera
         this.orbitControls.controls.enableKeys = false
         this.orbitControls.controls.zoomSpeed = 0.5
         this.orbitControls.controls.target.y = 1.4
+        this.orbitControls.controls.enableDamping = true
         this.orbitControls.controls.update()
 
-        console.log(this.orbitControls.controls)
+        this.time.on('tick', () =>
+        {
+            if(this.mode === 'orbitControls')
+            {
+                this.orbitControls.controls.update()
+            }
+        })
     }
 }
