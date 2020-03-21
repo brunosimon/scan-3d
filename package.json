@@ -1,0 +1,47 @@
+{
+  "name": "calico",
+  "version": "1.0.0",
+  "description": "## Setup Download [Node.js](https://nodejs.org/en/download/). Run this followed commands:",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config ./bundler/webpack.prod.js",
+    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js",
+    "watch": "webpack --watch --config ./bundler/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunosimon/folio-2019-html.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunosimon/folio-2019-html/issues"
+  },
+  "homepage": "https://github.com/brunosimon/folio-2019-html#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.4.0",
+    "file-loader": "^5.0.2",
+    "glslify-loader": "^2.0.0",
+    "gsap": "^3.1.1",
+    "guify": "^0.12.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "raw-loader": "^4.0.0",
+    "style-loader": "^1.1.2",
+    "three": "^0.112.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1",
+    "webpack-merge": "^4.2.2"
+  },
+  "staticFiles": {
+    "staticPath": "static",
+    "watcherGlob": "**"
+  },
+  "dependencies": {}
+}
