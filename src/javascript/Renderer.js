@@ -33,7 +33,7 @@ export default class Renderer
 
     setInstance()
     {
-        this.clearColor = '#000d08'
+        this.clearColor = '#080006'
 
         // Renderer
         this.instance = new THREE.WebGLRenderer({
@@ -196,7 +196,7 @@ export default class Renderer
 
         this.postProcess.composer.addPass(this.postProcess.renderPass)
         this.postProcess.composer.addPass(this.postProcess.bloomPass)
-        this.postProcess.composer.addPass(this.postProcess.finalPass)
+        // this.postProcess.composer.addPass(this.postProcess.finalPass)
 
         /**
          * Time tick event
@@ -210,8 +210,8 @@ export default class Renderer
             }
 
             // Render
-            // this.postProcess.composer.render()
-            this.instance.render(this.scene, this.camera.instance)
+            this.postProcess.composer.render()
+            // this.instance.render(this.scene, this.camera.instance)
         })
 
         /**

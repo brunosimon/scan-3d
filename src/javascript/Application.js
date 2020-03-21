@@ -100,8 +100,8 @@ export default class Application
     {
         this.scene = new THREE.Scene()
 
-        const dummy = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 10, 10, 10), new THREE.MeshBasicMaterial({ wireframe: true }))
-        this.scene.add(dummy)
+        // const dummy = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 10, 10, 10), new THREE.MeshBasicMaterial({ wireframe: true }))
+        // this.scene.add(dummy)
     }
 
     /**

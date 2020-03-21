@@ -13,7 +13,7 @@ void main()
 
     float xAngle = random1d(position.x) * 3.1415 * 2.0;
     float yAngle = random1d(position.y) * 3.1415 * 2.0;
-    float radius = random1d(position.z) * 0.1;
+    float radius = random1d(position.z) * 0.03;
 
     modelPosition.y += cos(xAngle) * radius;
     modelPosition.z += sin(xAngle) * radius;
