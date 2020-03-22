@@ -12,5 +12,5 @@ void main()
     gl_Position = projectionPosition;
 
     // Size
-    gl_PointSize = 2.0;
+    gl_PointSize = 1.0;
 }

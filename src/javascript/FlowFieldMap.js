@@ -22,7 +22,7 @@ export default class FlowFieldMap
 
         // Set up
         this.width = 512
-        this.height = 512
+        this.height = 1
         this.size = this.width * this.height
 
         // Environment
@@ -46,6 +46,7 @@ export default class FlowFieldMap
         this.baseTexture.magFilter = THREE.NearestFilter
         this.baseTexture.generateMipmaps = false
         this.baseTexture.needsUpdate = true
+        this.baseTexture.flipY = false
 
         // Render target
         this.renderTargets = {}
@@ -53,10 +54,15 @@ export default class FlowFieldMap
             this.width,
             this.height,
             {
+                wrapS: THREE.ClampToEdgeWrapping,
+                wrapT: THREE.ClampToEdgeWrapping,
                 minFilter: THREE.NearestFilter,
                 magFilter: THREE.NearestFilter,
                 format: THREE.RGBAFormat,
-                type: THREE.FloatType
+                type: THREE.FloatType,
+                depthWrite: false,
+                depthBuffer: false,
+                stencilBuffer: false
             }
         )
         this.renderTargets.b = this.renderTargets.a.clone()

@@ -1,8 +1,9 @@
 import * as THREE from 'three'
-import source from './resources/scans/1.ply'
+import scan1Source from './resources/scans/1.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
-import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial'
+import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial.js'
+import CustomPLYLoader from './CustomPLYLoader.js'
 
 export default class Particles
 {
@@ -25,59 +26,79 @@ export default class Particles
             })
         }
 
-        this.setFlowField()
-
-        // Material
-        this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 30
-        this.material.uniforms.uPositionRandomness.value = 0.02
-        this.material.uniforms.uAlpha.value = 1
-
-        if(this.debug)
+        // Load PLY
+        this.loader = new CustomPLYLoader()
+        this.loader.load(scan1Source, (_geometry) =>
         {
-            this.debug.Register({
-                folder: 'particles',
-                type: 'range',
-                label: 'uSize',
-                min: 1,
-                max: 100,
-                object: this.material.uniforms.uSize,
-                property: 'value'
-            })
+            // Flow field
+            this.setFlowField()
 
-            this.debug.Register({
-                folder: 'particles',
-                type: 'range',
-                label: 'uPositionRandomness',
-                min: 0,
-                max: 0.3,
-                step: 0.0001,
-                object: this.material.uniforms.uPositionRandomness,
-                property: 'value'
-            })
+            // Material
+            this.material = new ParticlesMaterial()
+            this.material.uniforms.uSize.value = 30
+            this.material.uniforms.uPositionRandomness.value = 0.02
+            this.material.uniforms.uAlpha.value = 1
 
-            this.debug.Register({
-                folder: 'particles',
-                type: 'range',
-                label: 'uAlpha',
-                min: 0,
-                max: 1,
-                step: 0.001,
-                object: this.material.uniforms.uAlpha,
-                property: 'value'
-            })
-        }
+            if(this.debug)
+            {
+                this.debug.Register({
+                    folder: 'particles',
+                    type: 'range',
+                    label: 'uSize',
+                    min: 1,
+                    max: 100,
+                    object: this.material.uniforms.uSize,
+                    property: 'value'
+                })
 
-        // Geometry
-        this.geometry = this.parseSource(source)
+                this.debug.Register({
+                    folder: 'particles',
+                    type: 'range',
+                    label: 'uPositionRandomness',
+                    min: 0,
+                    max: 0.3,
+                    step: 0.0001,
+                    object: this.material.uniforms.uPositionRandomness,
+                    property: 'value'
+                })
 
-        // Points
-        this.points = new THREE.Points(this.geometry, this.material)
-        // this.container.add(this.points)
+                this.debug.Register({
+                    folder: 'particles',
+                    type: 'range',
+                    label: 'uAlpha',
+                    min: 0,
+                    max: 1,
+                    step: 0.001,
+                    object: this.material.uniforms.uAlpha,
+                    property: 'value'
+                })
+            }
+
+            // Geometry
+            const alphasArray = new Float32Array(_geometry.attributes.position.count * 1)
+            const sizesArray = new Float32Array(_geometry.attributes.position.count * 1)
+
+            for(let i = 0; i < _geometry.attributes.position.count; i++)
+            {
+                const verticeIndex = i * 3
+
+                alphasArray[verticeIndex] = 0.2 + Math.random() * 0.8
+                sizesArray[verticeIndex] = Math.random()
+            }
+
+            _geometry.setAttribute('alpha', new THREE.BufferAttribute(alphasArray, 1))
+            _geometry.setAttribute('size', new THREE.BufferAttribute(sizesArray, 1))
+
+            // Points
+            this.points = new THREE.Points(_geometry, this.material)
+            this.container.add(this.points)
+        })
     }
 
     parseSource(_source)
     {
+        const result = {}
+
         // Source parts
         const splitedSource = _source.split(/\nend_header\n/)
         const headerPart = splitedSource[0]
@@ -97,11 +118,8 @@ export default class Particles
         }
 
         // Geometry
-        const geometry = new THREE.BufferGeometry()
         const positionArray = new Float32Array(count * 3)
         const colorArray = new Float32Array(count * 3)
-        const alphaArray = new Float32Array(count * 1)
-        const sizeArray = new Float32Array(count * 1)
 
         // Get vertices
         const verticesLines = verticesPart.split(/\n/).slice(0, count)
@@ -119,17 +137,13 @@ export default class Particles
             colorArray[verticeIndex + 0] = parseInt(parsedLine[4]) / 255
             colorArray[verticeIndex + 1] = parseInt(parsedLine[5]) / 255
             colorArray[verticeIndex + 2] = parseInt(parsedLine[6]) / 255
-
-            alphaArray[verticeIndex] = 0.2 + Math.random() * 0.8
-            sizeArray[verticeIndex] = Math.random()
         }
 
-        geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
-        geometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3))
-        geometry.setAttribute('alpha', new THREE.BufferAttribute(alphaArray, 1))
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1))
+        result.count = count
+        result.positions = positionArray
+        result.colors = colorArray
 
-        return geometry
+        return result
     }
 
     setFlowField()
@@ -143,20 +157,20 @@ export default class Particles
             time: this.time
         })
 
-        // Dummy
-        this.flowField.dummyMap = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(5, 5, 1, 1),
-            new THREE.MeshBasicMaterial({
-                map: this.flowField.map.renderTargets.current.texture
-            })
-        )
-        this.flowField.dummyMap.rotation.y = Math.PI
-        this.flowField.dummyMap.position.y = 1.5
+        // // Dummy
+        // this.flowField.dummyMap = new THREE.Mesh(
+        //     new THREE.PlaneBufferGeometry(5, 5, 1, 1),
+        //     new THREE.MeshBasicMaterial({
+        //         map: this.flowField.map.renderTargets.current.texture
+        //     })
+        // )
+        // this.flowField.dummyMap.rotation.y = Math.PI
+        // this.flowField.dummyMap.position.y = 1.5
         // this.container.add(this.flowField.dummyMap)
 
         // Particles
-        this.flowField.particles = {}
-        this.flowField.particles.geometry = new THREE.BufferGeometry()
+        this.flowField.dummyParticles = {}
+        this.flowField.dummyParticles.geometry = new THREE.BufferGeometry()
 
         const positionArray = new Float32Array(this.flowField.map.size * 3)
 
@@ -168,19 +182,19 @@ export default class Particles
             positionArray[verticeIndex + 1] = ~~(i / this.flowField.map.width) / this.flowField.map.height
         }
 
-        this.flowField.particles.geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
+        this.flowField.dummyParticles.geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
 
-        this.flowField.particles.material = new FlowFieldParticlesMaterial()
-        this.flowField.particles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+        this.flowField.dummyParticles.material = new FlowFieldParticlesMaterial()
+        this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
 
-        this.flowField.particles.points = new THREE.Points(this.flowField.particles.geometry, this.flowField.particles.material)
-        this.container.add(this.flowField.particles.points)
+        this.flowField.dummyParticles.points = new THREE.Points(this.flowField.dummyParticles.geometry, this.flowField.dummyParticles.material)
+        this.container.add(this.flowField.dummyParticles.points)
 
         // Time tick event
         this.time.on('tick', () =>
         {
             this.flowField.map.render()
-            // this.flowField.particles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
         })
     }
 }

@@ -65,7 +65,7 @@ module.exports = {
 
             // Models
             {
-                test: /\.(glb|gltf|fbx|obj)$/,
+                test: /\.(glb|gltf|fbx|obj|ply)$/,
                 use:
                 [
                     {
@@ -74,17 +74,6 @@ module.exports = {
                         {
                             outputPath: 'assets/models/'
                         }
-                    }
-                ]
-            },
-
-            // Models
-            {
-                test: /\.ply$/,
-                use:
-                [
-                    {
-                        loader: 'raw-loader'
                     }
                 ]
             },

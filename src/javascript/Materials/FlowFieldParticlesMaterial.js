@@ -10,6 +10,7 @@ export default function()
         depthTest: false,
         depthWrite: false,
         transparent: true,
+        // blending: THREE.AdditiveBlending,
         uniforms:
         {
             uFBOTexture: { value: null }
