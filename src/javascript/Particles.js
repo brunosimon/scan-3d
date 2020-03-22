@@ -137,7 +137,7 @@ export default class Particles
         this.flowField = {}
 
         // Map
-        this.flowField.map = new FlowFieldMap({ renderer: this.renderer })
+        this.flowField.map = new FlowFieldMap({ renderer: this.renderer, time: this.time })
 
         // Dummy
         this.flowField.dummyMap = new THREE.Mesh(
@@ -148,7 +148,7 @@ export default class Particles
         )
         this.flowField.dummyMap.rotation.y = Math.PI
         this.flowField.dummyMap.position.y = 1.5
-        this.container.add(this.flowField.dummyMap)
+        // this.container.add(this.flowField.dummyMap)
 
         // Particles
         this.flowField.particles = {}

@@ -5,9 +5,13 @@ export default class FlowFieldMap
 {
     constructor(_options)
     {
+        // Options
         this.renderer = _options.renderer
-        this.width = 64
-        this.height = 64
+        this.time = _options.time
+
+        // Set up
+        this.width = 512
+        this.height = 512
         this.size = this.width * this.height
 
         // Environment
@@ -56,6 +60,7 @@ export default class FlowFieldMap
 
         this.material = new FlowFieldMapMaterial()
         this.material.uniforms.uTexture.value = this.baseTexture
+        this.material.uniforms.uTime.value = 0.0
 
         this.mesh = new THREE.Mesh(this.geometry, this.material)
         this.scene.add(this.mesh)
@@ -70,6 +75,8 @@ export default class FlowFieldMap
     {
         // Update material texture
         this.material.uniforms.uTexture.value = this.renderTargets.current.texture
+        this.material.uniforms.uTime.value = this.time.elapsed
+        this.material.uniforms.uTimeFrequency.value = 0.0001
 
         // Render
         this.renderer.instance.setRenderTarget(this.renderTargets.other)

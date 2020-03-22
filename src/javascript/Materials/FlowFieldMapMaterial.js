@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import vertexShader from '../shaders/flowField/vertex.glsl'
-import fragmentShader from '../shaders/flowField/fragment.glsl'
+import vertexShader from '../shaders/flowFieldMap/vertex.glsl'
+import fragmentShader from '../shaders/flowFieldMap/fragment.glsl'
 
 export default function()
 {
@@ -9,7 +9,9 @@ export default function()
         fragmentShader: fragmentShader,
         uniforms:
         {
-            uTexture: { value: null }
+            uTexture: { value: null },
+            uTime: { value: null },
+            uTimeFrequency: { value: null }
         }
     })
 }
