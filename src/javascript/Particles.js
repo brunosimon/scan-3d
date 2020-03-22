@@ -30,68 +30,10 @@ export default class Particles
         this.loader = new CustomPLYLoader()
         this.loader.load(scan1Source, (_geometry) =>
         {
-            // Flow field
+            this.setGeometry(_geometry)
             this.setFlowField()
-
-            // Material
-            this.material = new ParticlesMaterial()
-            this.material.uniforms.uSize.value = 30
-            this.material.uniforms.uPositionRandomness.value = 0.02
-            this.material.uniforms.uAlpha.value = 1
-
-            if(this.debug)
-            {
-                this.debug.Register({
-                    folder: 'particles',
-                    type: 'range',
-                    label: 'uSize',
-                    min: 1,
-                    max: 100,
-                    object: this.material.uniforms.uSize,
-                    property: 'value'
-                })
-
-                this.debug.Register({
-                    folder: 'particles',
-                    type: 'range',
-                    label: 'uPositionRandomness',
-                    min: 0,
-                    max: 0.3,
-                    step: 0.0001,
-                    object: this.material.uniforms.uPositionRandomness,
-                    property: 'value'
-                })
-
-                this.debug.Register({
-                    folder: 'particles',
-                    type: 'range',
-                    label: 'uAlpha',
-                    min: 0,
-                    max: 1,
-                    step: 0.001,
-                    object: this.material.uniforms.uAlpha,
-                    property: 'value'
-                })
-            }
-
-            // Geometry
-            const alphasArray = new Float32Array(_geometry.attributes.position.count * 1)
-            const sizesArray = new Float32Array(_geometry.attributes.position.count * 1)
-
-            for(let i = 0; i < _geometry.attributes.position.count; i++)
-            {
-                const verticeIndex = i * 3
-
-                alphasArray[verticeIndex] = 0.2 + Math.random() * 0.8
-                sizesArray[verticeIndex] = Math.random()
-            }
-
-            _geometry.setAttribute('alpha', new THREE.BufferAttribute(alphasArray, 1))
-            _geometry.setAttribute('size', new THREE.BufferAttribute(sizesArray, 1))
-
-            // Points
-            this.points = new THREE.Points(_geometry, this.material)
-            this.container.add(this.points)
+            this.setMaterial()
+            this.setPoints()
         })
     }
 
@@ -154,7 +96,8 @@ export default class Particles
         this.flowField.map = new FlowFieldMap({
             debug: this.debug,
             renderer: this.renderer,
-            time: this.time
+            time: this.time,
+            positions: this.geometry.attributes.position.array
         })
 
         // // Dummy
@@ -185,7 +128,7 @@ export default class Particles
         this.flowField.dummyParticles.geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
 
         this.flowField.dummyParticles.material = new FlowFieldParticlesMaterial()
-        this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+        this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
 
         this.flowField.dummyParticles.points = new THREE.Points(this.flowField.dummyParticles.geometry, this.flowField.dummyParticles.material)
         this.container.add(this.flowField.dummyParticles.points)
@@ -194,7 +137,75 @@ export default class Particles
         this.time.on('tick', () =>
         {
             this.flowField.map.render()
-            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
         })
+    }
+
+    setMaterial()
+    {
+        this.material = new ParticlesMaterial()
+        this.material.uniforms.uSize.value = 30
+        this.material.uniforms.uPositionRandomness.value = 0.02
+        this.material.uniforms.uAlpha.value = 1
+
+        if(this.debug)
+        {
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uSize',
+                min: 1,
+                max: 100,
+                object: this.material.uniforms.uSize,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uPositionRandomness',
+                min: 0,
+                max: 0.3,
+                step: 0.0001,
+                object: this.material.uniforms.uPositionRandomness,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uAlpha',
+                min: 0,
+                max: 1,
+                step: 0.001,
+                object: this.material.uniforms.uAlpha,
+                property: 'value'
+            })
+        }
+    }
+
+    setGeometry(_geometry)
+    {
+        this.geometry = _geometry
+
+        const alphasArray = new Float32Array(this.geometry.attributes.position.count * 1)
+        const sizesArray = new Float32Array(this.geometry.attributes.position.count * 1)
+
+        for(let i = 0; i < this.geometry.attributes.position.count; i++)
+        {
+            const verticeIndex = i * 3
+
+            alphasArray[verticeIndex] = 0.2 + Math.random() * 0.8
+            sizesArray[verticeIndex] = Math.random()
+        }
+
+        this.geometry.setAttribute('alpha', new THREE.BufferAttribute(alphasArray, 1))
+        this.geometry.setAttribute('size', new THREE.BufferAttribute(sizesArray, 1))
+    }
+
+    setPoints()
+    {
+        this.points = new THREE.Points(this.geometry, this.material)
+        this.container.add(this.points)
     }
 }
