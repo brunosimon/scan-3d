@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import source from './resources/scans/1.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
+import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial'
 
 export default class Particles
 {
@@ -72,7 +73,7 @@ export default class Particles
 
         // Points
         this.points = new THREE.Points(this.geometry, this.material)
-        this.container.add(this.points)
+        // this.container.add(this.points)
     }
 
     parseSource(_source)
@@ -135,21 +136,47 @@ export default class Particles
     {
         this.flowField = {}
 
+        // Map
         this.flowField.map = new FlowFieldMap({ renderer: this.renderer })
 
-        this.time.on('tick', () =>
-        {
-            this.flowField.map.render()
-        })
-
-        this.flowField.dummy = new THREE.Mesh(
+        // Dummy
+        this.flowField.dummyMap = new THREE.Mesh(
             new THREE.PlaneBufferGeometry(5, 5, 1, 1),
             new THREE.MeshBasicMaterial({
                 map: this.flowField.map.renderTargets.current.texture
             })
         )
-        this.flowField.dummy.rotation.y = Math.PI
-        this.flowField.dummy.position.y = 1.5
-        this.container.add(this.flowField.dummy)
+        this.flowField.dummyMap.rotation.y = Math.PI
+        this.flowField.dummyMap.position.y = 1.5
+        this.container.add(this.flowField.dummyMap)
+
+        // Particles
+        this.flowField.particles = {}
+        this.flowField.particles.geometry = new THREE.BufferGeometry()
+
+        const positionArray = new Float32Array(this.flowField.map.size * 3)
+
+        for(let i = 0; i < this.flowField.map.size; i++)
+        {
+            const verticeIndex = i * 3
+
+            positionArray[verticeIndex + 0] = (i % this.flowField.map.width) / this.flowField.map.width
+            positionArray[verticeIndex + 1] = ~~(i / this.flowField.map.width) / this.flowField.map.height
+        }
+
+        this.flowField.particles.geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
+
+        this.flowField.particles.material = new FlowFieldParticlesMaterial()
+        this.flowField.particles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+
+        this.flowField.particles.points = new THREE.Points(this.flowField.particles.geometry, this.flowField.particles.material)
+        this.container.add(this.flowField.particles.points)
+
+        // Time tick event
+        this.time.on('tick', () =>
+        {
+            this.flowField.map.render()
+            // this.flowField.particles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.current.texture
+        })
     }
 }

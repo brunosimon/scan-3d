@@ -6,8 +6,9 @@ export default class FlowFieldMap
     constructor(_options)
     {
         this.renderer = _options.renderer
-        this.resolution = 64
-        this.size = this.resolution * this.resolution
+        this.width = 64
+        this.height = 64
+        this.size = this.width * this.height
 
         // Environment
         this.scene = new THREE.Scene()
@@ -15,26 +16,32 @@ export default class FlowFieldMap
         this.camera.position.z = 1
 
         // Base texture
-        const data = new Uint8Array(3 * this.size)
+        const data = new Float32Array(4 * this.size)
 
         for(let i = 0; i < this.size; i++)
         {
-            const pixelIndex = i * 3
-            data[pixelIndex + 0] = Math.floor(Math.random() * 255)
-            data[pixelIndex + 1] = Math.floor(Math.random() * 255)
-            data[pixelIndex + 2] = Math.floor(Math.random() * 255)
+            const pixelIndex = i * 4
+            data[pixelIndex + 0] = Math.random()
+            data[pixelIndex + 1] = Math.random()
+            data[pixelIndex + 2] = Math.random()
+            data[pixelIndex + 3] = 1
         }
-        this.baseTexture = new THREE.DataTexture(data, this.resolution, this.resolution, THREE.RGBFormat)
+        this.baseTexture = new THREE.DataTexture(data, this.width, this.height, THREE.RGBAFormat, THREE.FloatType)
+        this.baseTexture.minFilter = THREE.NearestFilter
+        this.baseTexture.magFilter = THREE.NearestFilter
+        this.baseTexture.generateMipmaps = false
         this.baseTexture.needsUpdate = true
 
         // Render target
         this.renderTargets = {}
         this.renderTargets.a = new THREE.WebGLRenderTarget(
-            this.resolution,
-            this.resolution,
+            this.width,
+            this.height,
             {
                 minFilter: THREE.NearestFilter,
-                magFilter: THREE.NearestFilter
+                magFilter: THREE.NearestFilter,
+                format: THREE.RGBAFormat,
+                type: THREE.FloatType
             }
         )
         this.renderTargets.b = this.renderTargets.a.clone()
