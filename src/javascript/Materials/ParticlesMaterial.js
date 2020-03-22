@@ -10,8 +10,8 @@ export default function()
         vertexColors: THREE.VertexColors,
         blending: THREE.AdditiveBlending,
         transparent: true,
-        alphaTest: 0.5,
         depthTest: false,
+        depthWrite: false,
         uniforms:
         {
             uSize: { value: null },

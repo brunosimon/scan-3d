@@ -1,12 +1,15 @@
 import * as THREE from 'three'
 import source from './resources/scans/1.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
+import FlowFieldMap from './FlowFieldMap.js'
 
 export default class Particles
 {
     constructor(_options = {})
     {
         this.debug = _options.debug
+        this.time = _options.time
+        this.renderer = _options.renderer
 
         // Set up
         this.container = new THREE.Group()
@@ -20,6 +23,8 @@ export default class Particles
                 open: true
             })
         }
+
+        this.setFlowField()
 
         // Material
         this.material = new ParticlesMaterial()
@@ -124,5 +129,27 @@ export default class Particles
         geometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1))
 
         return geometry
+    }
+
+    setFlowField()
+    {
+        this.flowField = {}
+
+        this.flowField.map = new FlowFieldMap({ renderer: this.renderer })
+
+        this.time.on('tick', () =>
+        {
+            this.flowField.map.render()
+        })
+
+        this.flowField.dummy = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(5, 5, 1, 1),
+            new THREE.MeshBasicMaterial({
+                map: this.flowField.map.renderTargets.current.texture
+            })
+        )
+        this.flowField.dummy.rotation.y = Math.PI
+        this.flowField.dummy.position.y = 1.5
+        this.container.add(this.flowField.dummy)
     }
 }

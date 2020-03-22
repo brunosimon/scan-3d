@@ -142,7 +142,11 @@ export default class Application
      */
     setParticles()
     {
-        this.particles = new Particles({ debug: this.debug })
+        this.particles = new Particles({
+            debug: this.debug,
+            time: this.time,
+            renderer: this.renderer
+        })
         this.scene.add(this.particles.container)
     }
 }
