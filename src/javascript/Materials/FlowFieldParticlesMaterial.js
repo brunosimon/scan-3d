@@ -9,6 +9,7 @@ export default function()
         fragmentShader: fragmentShader,
         depthTest: false,
         depthWrite: false,
+        transparent: true,
         uniforms:
         {
             uFBOTexture: { value: null }

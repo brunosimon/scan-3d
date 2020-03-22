@@ -28,7 +28,7 @@ export default class FlowFieldMap
             data[pixelIndex + 0] = Math.random()
             data[pixelIndex + 1] = Math.random()
             data[pixelIndex + 2] = Math.random()
-            data[pixelIndex + 3] = 1
+            data[pixelIndex + 3] = Math.random()
         }
         this.baseTexture = new THREE.DataTexture(data, this.width, this.height, THREE.RGBAFormat, THREE.FloatType)
         this.baseTexture.minFilter = THREE.NearestFilter
@@ -59,6 +59,7 @@ export default class FlowFieldMap
         this.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
 
         this.material = new FlowFieldMapMaterial()
+        this.material.uniforms.uBaseTexture.value = this.baseTexture
         this.material.uniforms.uTexture.value = this.baseTexture
         this.material.uniforms.uTime.value = 0.0
 
