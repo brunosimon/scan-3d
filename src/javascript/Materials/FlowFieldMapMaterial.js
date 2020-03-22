@@ -12,7 +12,10 @@ export default function()
             uBaseTexture: { value: null },
             uTexture: { value: null },
             uTime: { value: null },
-            uTimeFrequency: { value: null }
+            uTimeFrequency: { value: null },
+            uPositionFrequency: { value: null },
+            uPositionSpeed: { value: null },
+            uLifeSpeed: { value: null }
         }
     })
 }

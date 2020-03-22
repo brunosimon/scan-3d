@@ -48,7 +48,7 @@ export default class Application
         this.config.debug = window.location.hash === '#debug'
 
         // Pixel ratio
-        this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 1)
+        this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
 
         // Width and height
         const boundings = this.targetElement.getBoundingClientRect()
