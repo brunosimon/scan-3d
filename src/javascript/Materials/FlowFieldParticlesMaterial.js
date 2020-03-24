@@ -13,7 +13,8 @@ export default function()
         // blending: THREE.AdditiveBlending,
         uniforms:
         {
-            uFBOTexture: { value: null }
+            uFBOTexture: { value: null },
+            uFBOMatrix: { value: null }
         }
     })
 }

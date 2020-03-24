@@ -132,6 +132,10 @@ export default class FlowFieldMap
         this.space.amplitude.x = this.space.max.x - this.space.min.x
         this.space.amplitude.y = this.space.max.y - this.space.min.y
         this.space.amplitude.z = this.space.max.z - this.space.min.z
+
+        this.space.matrix = new THREE.Matrix4()
+        this.space.matrix.makeTranslation(this.space.min.x, this.space.min.y, this.space.min.z)
+        this.space.matrix.scale(new THREE.Vector3(this.space.amplitude.x, this.space.amplitude.y, this.space.amplitude.z))
     }
 
     setBaseTexture()
@@ -195,10 +199,11 @@ export default class FlowFieldMap
         this.material.uniforms.uBaseTexture.value = this.baseTexture
         this.material.uniforms.uTexture.value = this.baseTexture
         this.material.uniforms.uTime.value = 0.0
-        this.material.uniforms.uTimeFrequency.value = 0.00003
-        this.material.uniforms.uPositionFrequency.value = 2
-        this.material.uniforms.uPositionSpeed.value = 0.02
+        this.material.uniforms.uTimeFrequency.value = 0.0001
+        this.material.uniforms.uPositionFrequency.value = 0.6
+        this.material.uniforms.uPositionSpeed.value = 0.004
         this.material.uniforms.uLifeSpeed.value = 0.003
+        this.material.uniforms.uSpaceMatrix.value = this.space.matrix
 
         // Mesh in front of camera
         this.mesh = new THREE.Mesh(this.geometry, this.material)

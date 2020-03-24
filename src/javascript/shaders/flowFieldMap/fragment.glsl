@@ -1,7 +1,8 @@
-uniform float uTime;
-uniform float uTimeFrequency;
+uniform mat4 uSpaceMatrix;
 uniform sampler2D uBaseTexture;
 uniform sampler2D uTexture;
+uniform float uTime;
+uniform float uTimeFrequency;
 uniform float uPositionFrequency;
 uniform float uPositionSpeed;
 uniform float uLifeSpeed;
@@ -33,10 +34,11 @@ void main()
     // Is alive
     else
     {
-        // Apply perlin
-        newColor.r = color.r + simplexPerlin4d(vec4((color.rgb + 0.0) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
-        newColor.g = color.g + simplexPerlin4d(vec4((color.rgb + 1234.0) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
-        newColor.b = color.b + simplexPerlin4d(vec4((color.rgb + 9876.0) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
+        // Apply perlin according to the space
+        vec4 spacePosition = uSpaceMatrix * vec4(color.rgb, 1.0);
+        newColor.r = color.r + simplexPerlin4d(vec4((spacePosition.rgb + 0.0   ) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
+        newColor.g = color.g + simplexPerlin4d(vec4((spacePosition.rgb + 1234.0) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
+        newColor.b = color.b + simplexPerlin4d(vec4((spacePosition.rgb + 9876.0) * uPositionFrequency, uTime * uTimeFrequency)) * uPositionSpeed;
     }
 
     gl_FragColor = newColor;

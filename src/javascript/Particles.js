@@ -129,6 +129,7 @@ export default class Particles
 
         this.flowField.dummyParticles.material = new FlowFieldParticlesMaterial()
         this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
+        this.flowField.dummyParticles.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
 
         this.flowField.dummyParticles.points = new THREE.Points(this.flowField.dummyParticles.geometry, this.flowField.dummyParticles.material)
         this.container.add(this.flowField.dummyParticles.points)
@@ -206,6 +207,6 @@ export default class Particles
     setPoints()
     {
         this.points = new THREE.Points(this.geometry, this.material)
-        this.container.add(this.points)
+        // this.container.add(this.points)
     }
 }

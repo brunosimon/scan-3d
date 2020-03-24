@@ -9,6 +9,7 @@ export default function()
         fragmentShader: fragmentShader,
         uniforms:
         {
+            uSpaceMatrix: { value: null },
             uBaseTexture: { value: null },
             uTexture: { value: null },
             uTime: { value: null },
