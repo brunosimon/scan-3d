@@ -14,6 +14,8 @@ export default function()
         depthWrite: false,
         uniforms:
         {
+            uFBOTexture: { value: null },
+            uFBOMatrix: { value: null },
             uSize: { value: null },
             uPositionRandomness: { value: null },
             uAlpha: { value: null }

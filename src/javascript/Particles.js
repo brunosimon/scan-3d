@@ -117,7 +117,7 @@ export default class Particles
 
         const positionArray = new Float32Array(this.flowField.map.size * 3)
 
-        for(let i = 0; i < this.flowField.map.size; i++)
+        for(let i = 0; i < this.flowField.map.positions.length; i++)
         {
             const verticeIndex = i * 3
 
@@ -132,7 +132,7 @@ export default class Particles
         this.flowField.dummyParticles.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
 
         this.flowField.dummyParticles.points = new THREE.Points(this.flowField.dummyParticles.geometry, this.flowField.dummyParticles.material)
-        this.container.add(this.flowField.dummyParticles.points)
+        // this.container.add(this.flowField.dummyParticles.points)
 
         // Time tick event
         this.time.on('tick', () =>
@@ -140,6 +140,11 @@ export default class Particles
             this.flowField.map.render()
             this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
         })
+
+        // Update geometry
+        // this.geometry.deleteAttribute('position')
+        this.geometry.setAttribute('position2', new THREE.BufferAttribute(positionArray, 3))
+
     }
 
     setMaterial()
@@ -148,6 +153,8 @@ export default class Particles
         this.material.uniforms.uSize.value = 30
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
+        this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
+        this.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
 
         if(this.debug)
         {
@@ -207,6 +214,6 @@ export default class Particles
     setPoints()
     {
         this.points = new THREE.Points(this.geometry, this.material)
-        // this.container.add(this.points)
+        this.container.add(this.points)
     }
 }

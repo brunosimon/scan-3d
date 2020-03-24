@@ -143,14 +143,27 @@ export default class FlowFieldMap
         // Base texture
         const data = new Float32Array(4 * this.size)
 
-        for(let i = 0; i < this.size; i++)
+        // From positions
+        for(let i = 0; i < this.positions.length / 3; i++)
         {
+            const positionIndex = i * 3
             const pixelIndex = i * 4
-            data[pixelIndex + 0] = Math.random()
-            data[pixelIndex + 1] = Math.random()
-            data[pixelIndex + 2] = Math.random()
+            data[pixelIndex + 0] = (this.positions[positionIndex + 0] - this.space.min.x) / this.space.amplitude.x
+            data[pixelIndex + 1] = (this.positions[positionIndex + 1] - this.space.min.y) / this.space.amplitude.y
+            data[pixelIndex + 2] = (this.positions[positionIndex + 2] - this.space.min.z) / this.space.amplitude.z
             data[pixelIndex + 3] = Math.random()
         }
+
+        // From random
+        // for(let i = 0; i < this.size; i++)
+        // {
+        //     const pixelIndex = i * 4
+        //     data[pixelIndex + 0] = Math.random()
+        //     data[pixelIndex + 1] = Math.random()
+        //     data[pixelIndex + 2] = Math.random()
+        //     data[pixelIndex + 3] = Math.random()
+        // }
+
         this.baseTexture = new THREE.DataTexture(data, this.width, this.height, THREE.RGBAFormat, THREE.FloatType)
         this.baseTexture.minFilter = THREE.NearestFilter
         this.baseTexture.magFilter = THREE.NearestFilter

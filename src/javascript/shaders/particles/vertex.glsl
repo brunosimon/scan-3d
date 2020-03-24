@@ -1,8 +1,11 @@
+uniform sampler2D uFBOTexture;
+uniform mat4 uFBOMatrix;
 uniform float uSize;
 uniform float uPositionRandomness;
 
 attribute float alpha;
 attribute float size;
+attribute vec3 position2;
 
 varying vec3 vColor;
 varying float vAlpha;
@@ -11,18 +14,22 @@ varying float vAlpha;
 
 void main()
 {
+    // FBO data
+    vec4 fboData = texture2D(uFBOTexture, position2.xy);
+    vec3 fboPosition = vec4(uFBOMatrix * vec4(fboData.xyz, 1.0)).xyz;
+
     // Position
-    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+    vec4 modelPosition = modelMatrix * vec4(fboPosition, 1.0);
 
-    float xAngle = random1d(position.x) * 3.1415 * 2.0;
-    float yAngle = random1d(position.y) * 3.1415 * 2.0;
-    float radius = random1d(position.z) * uPositionRandomness;
+    // float xAngle = random1d(position.x) * 3.1415 * 2.0;
+    // float yAngle = random1d(position.y) * 3.1415 * 2.0;
+    // float radius = random1d(position.z) * uPositionRandomness;
 
-    modelPosition.y += cos(xAngle) * radius;
-    modelPosition.z += sin(xAngle) * radius;
+    // modelPosition.y += cos(xAngle) * radius;
+    // modelPosition.z += sin(xAngle) * radius;
 
-    modelPosition.x += cos(yAngle) * radius;
-    modelPosition.z += sin(yAngle) * radius;
+    // modelPosition.x += cos(yAngle) * radius;
+    // modelPosition.z += sin(yAngle) * radius;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectionPosition = projectionMatrix * viewPosition;
