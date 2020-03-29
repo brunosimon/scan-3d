@@ -14,8 +14,12 @@ export default function()
             uTexture: { value: null },
             uTime: { value: null },
             uTimeFrequency: { value: null },
-            uPositionFrequency: { value: null },
-            uPositionSpeed: { value: null },
+            uFlowFrequency: { value: null },
+            uFlowSpeed: { value: null },
+            uFlowDirection: { value: null },
+            uFlowStrengthFrequency: { value: null },
+            uFlowStrengthOffset: { value: null },
+            uFlowStrengthPower: { value: null },
             uLifeSpeed: { value: null }
         }
     })

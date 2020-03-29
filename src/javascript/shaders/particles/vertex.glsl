@@ -21,15 +21,15 @@ void main()
     // Position
     vec4 modelPosition = modelMatrix * vec4(fboPosition, 1.0);
 
-    // float xAngle = random1d(position.x) * 3.1415 * 2.0;
-    // float yAngle = random1d(position.y) * 3.1415 * 2.0;
-    // float radius = random1d(position.z) * uPositionRandomness;
+    float xAngle = random1d(position.x) * 3.1415 * 2.0;
+    float yAngle = random1d(position.y) * 3.1415 * 2.0;
+    float radius = random1d(position.z) * uPositionRandomness;
 
-    // modelPosition.y += cos(xAngle) * radius;
-    // modelPosition.z += sin(xAngle) * radius;
+    modelPosition.y += cos(xAngle) * radius;
+    modelPosition.z += sin(xAngle) * radius;
 
-    // modelPosition.x += cos(yAngle) * radius;
-    // modelPosition.z += sin(yAngle) * radius;
+    modelPosition.x += cos(yAngle) * radius;
+    modelPosition.z += sin(yAngle) * radius;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectionPosition = projectionMatrix * viewPosition;
@@ -38,6 +38,8 @@ void main()
     // Size
     gl_PointSize = uSize;
     gl_PointSize *= size;
+    // gl_PointSize *= fboData.a;
+    gl_PointSize *= min((1.0 - fboData.a) * 10.0, fboData.a);
     gl_PointSize *= (1.0 / - viewPosition.z);
 
     // Color
