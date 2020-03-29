@@ -55,7 +55,7 @@ export default class FlowFieldMap
                 type: 'range',
                 label: 'uFlowFrequency',
                 min: 0.0001,
-                max: 20,
+                max: 4,
                 step: 0.0001,
                 object: this.material.uniforms.uFlowFrequency,
                 property: 'value'
@@ -296,7 +296,7 @@ export default class FlowFieldMap
         this.material.uniforms.uFlowStrengthFrequency.value = 2.0
         this.material.uniforms.uFlowStrengthOffset.value = 0.0
         this.material.uniforms.uFlowStrengthPower.value = 1.5
-        this.material.uniforms.uLifeSpeed.value = 0.008
+        this.material.uniforms.uLifeSpeed.value = 0.004
         this.material.uniforms.uSpaceMatrix.value = this.space.matrix
 
         // Mesh in front of camera

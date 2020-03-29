@@ -95,7 +95,7 @@ export default class Renderer
          */
         this.postProcess.bloomPass = new UnrealBloomPass(new THREE.Vector2(this.config.width, this.config.height), 1.5, 0.4, 0.85)
         this.postProcess.bloomPass.threshold = 0
-        this.postProcess.bloomPass.strength = 0.3
+        this.postProcess.bloomPass.strength = 0.5
         this.postProcess.bloomPass.radius = 0
 
         if(this.debug)
@@ -123,7 +123,7 @@ export default class Renderer
                 type: 'range',
                 label: 'unrealBloomRadius',
                 min: 0,
-                max: 3,
+                max: 1,
                 object: this.postProcess.bloomPass,
                 property: 'radius'
             })
@@ -160,33 +160,33 @@ export default class Renderer
                 object: this.postProcess.finalPass,
                 property: 'animated'
             })
-            this.debug.Register({
-                folder: 'renderer',
-                type: 'range',
-                label: 'RGBOffsetMultiplier',
-                min: 0,
-                max: 1,
-                object: this.postProcess.finalPass.material.uniforms.uRGBOffsetMultiplier,
-                property: 'value'
-            })
-            this.debug.Register({
-                folder: 'renderer',
-                type: 'range',
-                label: 'RGBOffsetOffset',
-                min: 0,
-                max: 1,
-                object: this.postProcess.finalPass.material.uniforms.uRGBOffsetOffset,
-                property: 'value'
-            })
-            this.debug.Register({
-                folder: 'renderer',
-                type: 'range',
-                label: 'RGBOffsetPower',
-                min: 0,
-                max: 5,
-                object: this.postProcess.finalPass.material.uniforms.uRGBOffsetPower,
-                property: 'value'
-            })
+            // this.debug.Register({
+            //     folder: 'renderer',
+            //     type: 'range',
+            //     label: 'RGBOffsetMultiplier',
+            //     min: 0,
+            //     max: 1,
+            //     object: this.postProcess.finalPass.material.uniforms.uRGBOffsetMultiplier,
+            //     property: 'value'
+            // })
+            // this.debug.Register({
+            //     folder: 'renderer',
+            //     type: 'range',
+            //     label: 'RGBOffsetOffset',
+            //     min: 0,
+            //     max: 1,
+            //     object: this.postProcess.finalPass.material.uniforms.uRGBOffsetOffset,
+            //     property: 'value'
+            // })
+            // this.debug.Register({
+            //     folder: 'renderer',
+            //     type: 'range',
+            //     label: 'RGBOffsetPower',
+            //     min: 0,
+            //     max: 5,
+            //     object: this.postProcess.finalPass.material.uniforms.uRGBOffsetPower,
+            //     property: 'value'
+            // })
         }
 
         /**

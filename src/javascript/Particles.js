@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import scan1Source from './resources/scans/1.ply'
+import scan1Source from './resources/scans/3.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
 import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial.js'
@@ -150,7 +150,7 @@ export default class Particles
     setMaterial()
     {
         this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 30
+        this.material.uniforms.uSize.value = 20
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
