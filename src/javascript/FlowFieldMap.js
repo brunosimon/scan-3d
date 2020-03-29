@@ -42,100 +42,33 @@ export default class FlowFieldMap
             this.debug.Register({
                 folder: 'flowField',
                 type: 'range',
-                label: 'uTimeFrequency',
-                min: 0,
-                max: 0.001,
-                step: 0.0000001,
-                object: this.material.uniforms.uTimeFrequency,
-                property: 'value'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowFrequency',
-                min: 0.0001,
-                max: 4,
-                step: 0.0001,
-                object: this.material.uniforms.uFlowFrequency,
-                property: 'value'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowSpeed',
-                min: 0.0001,
-                max: 0.01,
-                step: 0.0001,
-                object: this.material.uniforms.uFlowSpeed,
-                property: 'value'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowDirectionX',
-                min: - 3,
-                max: 3,
-                step: 0.001,
-                object: this.material.uniforms.uFlowDirection.value,
-                property: 'x'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowDirectionY',
-                min: - 3,
-                max: 3,
-                step: 0.001,
-                object: this.material.uniforms.uFlowDirection.value,
-                property: 'y'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowDirectionZ',
-                min: - 3,
-                max: 3,
-                step: 0.001,
-                object: this.material.uniforms.uFlowDirection.value,
-                property: 'z'
-            })
-
-            this.debug.Register({
-                folder: 'flowField',
-                type: 'range',
-                label: 'uFlowStrengthFrequency',
+                label: 'uStrengthFrequency',
                 min: 0,
                 max: 3,
                 step: 0.001,
-                object: this.material.uniforms.uFlowStrengthFrequency,
+                object: this.material.uniforms.uStrengthFrequency,
                 property: 'value'
             })
-
 
             this.debug.Register({
                 folder: 'flowField',
                 type: 'range',
-                label: 'uFlowStrengthOffset',
+                label: 'uStrengthOffset',
                 min: - 1.5,
                 max: 1.5,
                 step: 0.001,
-                object: this.material.uniforms.uFlowStrengthOffset,
+                object: this.material.uniforms.uStrengthOffset,
                 property: 'value'
             })
 
             this.debug.Register({
                 folder: 'flowField',
                 type: 'range',
-                label: 'uFlowStrengthPower',
+                label: 'uStrengthPower',
                 min: 1,
                 max: 3,
                 step: 0.001,
-                object: this.material.uniforms.uFlowStrengthPower,
+                object: this.material.uniforms.uStrengthPower,
                 property: 'value'
             })
 
@@ -148,6 +81,72 @@ export default class FlowFieldMap
                 step: 0.00001,
                 object: this.material.uniforms.uLifeSpeed,
                 property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesTimeFrequency',
+                min: 0,
+                max: 0.001,
+                step: 0.0000001,
+                object: this.material.uniforms.uTurbulencesTimeFrequency,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesFrequency',
+                min: 0.0001,
+                max: 4,
+                step: 0.0001,
+                object: this.material.uniforms.uTurbulencesFrequency,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesSpeed',
+                min: 0.0001,
+                max: 0.01,
+                step: 0.0001,
+                object: this.material.uniforms.uTurbulencesSpeed,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesDirectionX',
+                min: - 3,
+                max: 3,
+                step: 0.001,
+                object: this.material.uniforms.uTurbulencesDirection.value,
+                property: 'x'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesDirectionY',
+                min: - 3,
+                max: 3,
+                step: 0.001,
+                object: this.material.uniforms.uTurbulencesDirection.value,
+                property: 'y'
+            })
+
+            this.debug.Register({
+                folder: 'flowField',
+                type: 'range',
+                label: 'uTurbulencesDirectionZ',
+                min: - 3,
+                max: 3,
+                step: 0.001,
+                object: this.material.uniforms.uTurbulencesDirection.value,
+                property: 'z'
             })
 
             this.debug.Register({
@@ -289,14 +288,14 @@ export default class FlowFieldMap
         this.material.uniforms.uBaseTexture.value = this.baseTexture
         this.material.uniforms.uTexture.value = this.baseTexture
         this.material.uniforms.uTime.value = 0.0
-        this.material.uniforms.uTimeFrequency.value = 0.0001
-        this.material.uniforms.uFlowFrequency.value = 0.6
-        this.material.uniforms.uFlowSpeed.value = 0.001
-        this.material.uniforms.uFlowDirection.value = new THREE.Vector3(0, 1, 0)
-        this.material.uniforms.uFlowStrengthFrequency.value = 2.0
-        this.material.uniforms.uFlowStrengthOffset.value = 0.0
-        this.material.uniforms.uFlowStrengthPower.value = 1.5
+        this.material.uniforms.uStrengthFrequency.value = 2.0
+        this.material.uniforms.uStrengthOffset.value = 0.0
+        this.material.uniforms.uStrengthPower.value = 1.5
         this.material.uniforms.uLifeSpeed.value = 0.004
+        this.material.uniforms.uTurbulencesTimeFrequency.value = 0.0001
+        this.material.uniforms.uTurbulencesFrequency.value = 0.6
+        this.material.uniforms.uTurbulencesSpeed.value = 0.001
+        this.material.uniforms.uTurbulencesDirection.value = new THREE.Vector3(0, 1, 0)
         this.material.uniforms.uSpaceMatrix.value = this.space.matrix
 
         // Mesh in front of camera

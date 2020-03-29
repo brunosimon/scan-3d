@@ -13,14 +13,14 @@ export default function()
             uBaseTexture: { value: null },
             uTexture: { value: null },
             uTime: { value: null },
-            uTimeFrequency: { value: null },
-            uFlowFrequency: { value: null },
-            uFlowSpeed: { value: null },
-            uFlowDirection: { value: null },
-            uFlowStrengthFrequency: { value: null },
-            uFlowStrengthOffset: { value: null },
-            uFlowStrengthPower: { value: null },
-            uLifeSpeed: { value: null }
+            uStrengthFrequency: { value: null },
+            uStrengthOffset: { value: null },
+            uStrengthPower: { value: null },
+            uLifeSpeed: { value: null },
+            uTurbulencesTimeFrequency: { value: null },
+            uTurbulencesFrequency: { value: null },
+            uTurbulencesSpeed: { value: null },
+            uTurbulencesDirection: { value: null }
         }
     })
 }
