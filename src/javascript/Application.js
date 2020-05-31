@@ -143,6 +143,7 @@ export default class Application
     setParticles()
     {
         this.particles = new Particles({
+            config: this.config,
             debug: this.debug,
             time: this.time,
             renderer: this.renderer

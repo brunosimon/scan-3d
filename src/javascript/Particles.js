@@ -9,6 +9,7 @@ export default class Particles
 {
     constructor(_options = {})
     {
+        this.config = _options.config
         this.debug = _options.debug
         this.time = _options.time
         this.renderer = _options.renderer
@@ -138,7 +139,7 @@ export default class Particles
         this.time.on('tick', () =>
         {
             this.flowField.map.render()
-            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
+            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.secondary.texture
         })
 
         // Update geometry
@@ -150,7 +151,7 @@ export default class Particles
     setMaterial()
     {
         this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 20
+        this.material.uniforms.uSize.value = 20 * this.config.pixelRatio
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
