@@ -1,9 +1,10 @@
 import * as THREE from 'three'
-import scan1Source from './resources/scans/4.ply'
+import scan1Source from './resources/scans/8.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
 import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial.js'
 import CustomPLYLoader from './CustomPLYLoader.js'
+// import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js'
 
 export default class Particles
 {
@@ -31,6 +32,7 @@ export default class Particles
         this.loader = new CustomPLYLoader()
         this.loader.load(scan1Source, (_geometry) =>
         {
+            // this.setPreview(_geometry)
             this.setGeometry(_geometry)
             this.setFlowField()
             this.setMaterial()
@@ -151,11 +153,16 @@ export default class Particles
     setMaterial()
     {
         this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 15 * this.config.pixelRatio
+        this.material.uniforms.uSize.value = 25 * this.config.pixelRatio
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
         this.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
+        this.material.uniforms.uColorOffset.value = new THREE.Vector3()
+        this.material.uniforms.uColorBrightness.value = 0
+        this.material.uniforms.uColorContrast.value = 1.0
+        this.material.uniforms.uDistanceAttenuationMultiplier.value = 0.1
+        this.material.uniforms.uDistanceAttenuationOffset.value = 10
 
         if(this.debug)
         {
@@ -190,7 +197,96 @@ export default class Particles
                 object: this.material.uniforms.uAlpha,
                 property: 'value'
             })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uColorOffsetR',
+                min: - 0.2,
+                max: 0.2,
+                step: 0.0001,
+                object: this.material.uniforms.uColorOffset.value,
+                property: 'x'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uColorOffsetG',
+                min: - 0.2,
+                max: 0.2,
+                step: 0.0001,
+                object: this.material.uniforms.uColorOffset.value,
+                property: 'y'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uColorOffsetB',
+                min: - 0.2,
+                max: 0.2,
+                step: 0.0001,
+                object: this.material.uniforms.uColorOffset.value,
+                property: 'z'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uColorBrightness',
+                min: 0,
+                max: 1,
+                step: 0.001,
+                object: this.material.uniforms.uColorBrightness,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uColorContrast',
+                min: 0,
+                max: 2,
+                step: 0.001,
+                object: this.material.uniforms.uColorContrast,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uDistanceAttenuationMultiplier',
+                min: 0,
+                max: 1,
+                step: 0.0001,
+                object: this.material.uniforms.uDistanceAttenuationMultiplier,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uDistanceAttenuationOffset',
+                min: 0,
+                max: 50,
+                step: 0.001,
+                object: this.material.uniforms.uDistanceAttenuationOffset,
+                property: 'value'
+            })
         }
+    }
+
+    setPreview(_geometry)
+    {
+        this.preview = {}
+
+        this.preview.geometry = _geometry.clone()
+        this.preview.material = new THREE.MeshBasicMaterial({
+            vertexColors: THREE.VertexColors
+        })
+        this.preview.mesh = new THREE.Mesh(this.preview.geometry, this.preview.material)
+        this.container.add(this.preview.mesh)
     }
 
     setGeometry(_geometry)

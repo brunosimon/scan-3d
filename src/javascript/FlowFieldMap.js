@@ -289,7 +289,7 @@ export default class FlowFieldMap
         this.material.uniforms.uTexture.value = this.baseTexture
         this.material.uniforms.uTime.value = 0.0
         this.material.uniforms.uStrengthFrequency.value = 2.0
-        this.material.uniforms.uStrengthOffset.value = 0.0
+        this.material.uniforms.uStrengthOffset.value = - 0.35
         this.material.uniforms.uStrengthPower.value = 1.5
         this.material.uniforms.uLifeSpeed.value = 0.004
         this.material.uniforms.uTurbulencesTimeFrequency.value = 0.0001

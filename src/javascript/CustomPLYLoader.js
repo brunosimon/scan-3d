@@ -18,7 +18,7 @@ export default class CustomPLYLoader
             .then((_result) =>
             {
                 // Source parts
-                const splitedSource = _result.split(/\nend_header\n/)
+                const splitedSource = _result.split(/[\n\r]end_header[\n\r]/)
                 const headerPart = splitedSource[0]
                 const verticesPart = splitedSource[1]
 
@@ -47,15 +47,18 @@ export default class CustomPLYLoader
                 {
                     const verticeIndex = i * 3
                     const line = verticesLines[i]
-                    const parsedLine = line.match(/(-?[0-9]+(?:\.[0-9]+)?)\s(-?[0-9]+(?:\.[0-9]+)?)\s(-?[0-9]+(?:\.[0-9]+)?)\s([0-9]{1,3})\s([0-9]{1,3})\s([0-9]{1,3})/)
+                    const parsedLine = line.match(/(-?[0-9]+(?:\.[0-9]+)?)\s(-?[0-9]+(?:\.[0-9]+)?)\s(-?[0-9]+(?:\.[0-9]+)?)\s([0-9]{1,3})\s([0-9]{1,3})(\s([0-9]{1,3}))?/)
 
-                    positionArray[verticeIndex + 0] = parseFloat(parsedLine[1])
-                    positionArray[verticeIndex + 1] = parseFloat(parsedLine[2])
-                    positionArray[verticeIndex + 2] = parseFloat(parsedLine[3])
+                    if(parsedLine)
+                    {
+                        positionArray[verticeIndex + 0] = parseFloat(parsedLine[1])
+                        positionArray[verticeIndex + 1] = parseFloat(parsedLine[2])
+                        positionArray[verticeIndex + 2] = parseFloat(parsedLine[3])
 
-                    colorArray[verticeIndex + 0] = parseInt(parsedLine[4]) / 255
-                    colorArray[verticeIndex + 1] = parseInt(parsedLine[5]) / 255
-                    colorArray[verticeIndex + 2] = parseInt(parsedLine[6]) / 255
+                        colorArray[verticeIndex + 0] = parseInt(parsedLine[4]) / 255
+                        colorArray[verticeIndex + 1] = parseInt(parsedLine[5]) / 255
+                        colorArray[verticeIndex + 2] = parseInt(parsedLine[6]) / 255
+                    }
                 }
 
                 geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))

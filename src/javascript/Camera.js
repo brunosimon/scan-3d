@@ -48,7 +48,7 @@ export default class Camera
     {
         // Set up
         this.instance = new THREE.PerspectiveCamera(75, this.config.width / this.config.height, 0.1, 150)
-        this.instance.position.set(0, 1.68, - 2)
+        this.instance.position.set(0, 1.68, 2)
         this.instance.lookAt(new THREE.Vector3(0, 1.55, 0))
 
         // Resize event
@@ -163,7 +163,7 @@ export default class Camera
         this.orbitControls.controls.enabled = true
         this.orbitControls.controls.screenSpacePanning = true
         this.orbitControls.controls.enableKeys = false
-        this.orbitControls.controls.zoomSpeed = 0.5
+        this.orbitControls.controls.zoomSpeed = 0.25
         this.orbitControls.controls.target.y = 1.4
         this.orbitControls.controls.enableDamping = true
         this.orbitControls.controls.update()

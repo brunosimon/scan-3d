@@ -18,7 +18,12 @@ export default function()
             uFBOMatrix: { value: null },
             uSize: { value: null },
             uPositionRandomness: { value: null },
-            uAlpha: { value: null }
+            uAlpha: { value: null },
+            uColorOffset: { value: null },
+            uColorBrightness: { value: null },
+            uColorContrast: { value: null },
+            uDistanceAttenuationMultiplier: { value: null },
+            uDistanceAttenuationOffset: { value: null }
         }
     })
 }

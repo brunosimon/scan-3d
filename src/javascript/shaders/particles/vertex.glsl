@@ -2,6 +2,11 @@ uniform sampler2D uFBOTexture;
 uniform mat4 uFBOMatrix;
 uniform float uSize;
 uniform float uPositionRandomness;
+uniform vec3 uColorOffset;
+uniform float uColorBrightness;
+uniform float uColorContrast;
+uniform float uDistanceAttenuationMultiplier;
+uniform float uDistanceAttenuationOffset;
 
 attribute float alpha;
 attribute float size;
@@ -44,7 +49,12 @@ void main()
 
     // Color
     vColor = color;
+    vColor.rgb += uColorOffset;
+    vColor.rgb += uColorBrightness;
+    vColor.rgb = ((vColor.rgb - 0.5) * max(uColorContrast, 0.0)) + 0.5;
 
     // Alpha
     vAlpha = alpha;
+    float distanceAlpha = 1.0 - clamp((distance(modelPosition.xyz, cameraPosition) - uDistanceAttenuationOffset) * uDistanceAttenuationMultiplier, 0.0, 1.0);
+    vAlpha *= distanceAlpha;
 }
