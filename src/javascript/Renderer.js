@@ -33,7 +33,7 @@ export default class Renderer
 
     setInstance()
     {
-        this.clearColor = '#080006'
+        this.clearColor = '#030002'
 
         // Renderer
         this.instance = new THREE.WebGLRenderer({
@@ -54,6 +54,7 @@ export default class Renderer
         this.instance.physicallyCorrectLights = true
         this.instance.gammaFactor = 2.2
         this.instance.gammaOutPut = true
+        this.instance.outputEncoding = THREE.sRGBEncoding
         // this.instance.autoClear = false
 
         // Resize event
