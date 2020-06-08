@@ -5,7 +5,7 @@ import EventEmitter from './Utils/EventEmitter.js'
 import Time from './Utils/Time.js'
 import Sizes from './Utils/Sizes.js'
 
-import Camera from './Camera.js'
+import Camera from './Camera/index.js'
 import Renderer from './Renderer.js'
 import Particles from './Particles.js'
 

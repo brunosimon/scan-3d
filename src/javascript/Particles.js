@@ -4,7 +4,7 @@ import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
 import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial.js'
 import CustomPLYLoader from './CustomPLYLoader.js'
-// import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js'
+import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js'
 
 export default class Particles
 {
