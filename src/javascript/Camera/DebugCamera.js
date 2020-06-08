@@ -19,14 +19,16 @@ export default class DebugCamera
         this.controls.target.y = 1.4
         this.controls.enableDamping = true
         this.controls.update()
+    }
 
-        this.time.on('tick', () =>
+    update()
+    {
+        if(!this.active)
         {
-            if(this.active)
-            {
-                this.controls.update()
-            }
-        })
+            return
+        }
+
+        this.controls.update()
     }
 
     activate()

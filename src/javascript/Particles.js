@@ -17,6 +17,7 @@ export default class Particles
 
         // Set up
         this.container = new THREE.Group()
+        this.ready = false
 
         // Debug
         if(this.debug)
@@ -37,6 +38,8 @@ export default class Particles
             this.setFlowField()
             this.setMaterial()
             this.setPoints()
+
+            this.ready = true
         })
     }
 
@@ -136,13 +139,6 @@ export default class Particles
 
         this.flowField.dummyParticles.points = new THREE.Points(this.flowField.dummyParticles.geometry, this.flowField.dummyParticles.material)
         // this.container.add(this.flowField.dummyParticles.points)
-
-        // Time tick event
-        this.time.on('tick', () =>
-        {
-            this.flowField.map.render()
-            this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.secondary.texture
-        })
 
         // Update geometry
         // this.geometry.deleteAttribute('position')
@@ -312,5 +308,16 @@ export default class Particles
     {
         this.points = new THREE.Points(this.geometry, this.material)
         this.container.add(this.points)
+    }
+
+    update()
+    {
+        if(!this.ready)
+        {
+            return
+        }
+
+        this.flowField.map.render()
+        this.flowField.dummyParticles.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.secondary.texture
     }
 }

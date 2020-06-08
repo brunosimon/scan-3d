@@ -20,12 +20,6 @@ export default class Physics
 
         this.setEnvironment()
         this.setRender()
-
-        this.time.on('tick', () =>
-        {
-            Engine.update(this.engine, this.time.delta, 1)
-            Render.world(this.render)
-        })
     }
 
     setEnvironment()
@@ -53,5 +47,11 @@ export default class Physics
         this.render.canvas.style.position = 'fixed'
         this.render.canvas.style.top = 0
         this.render.canvas.style.left = 0
+    }
+
+    update()
+    {
+        Engine.update(this.engine, this.time.delta, 1)
+        Render.world(this.render)
     }
 }

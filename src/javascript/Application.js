@@ -37,6 +37,11 @@ export default class Application
         this.setRenderer()
         this.setParticles()
         this.setPhysics()
+
+        this.time.on('tick', () =>
+        {
+            this.update()
+        })
     }
 
     /**
@@ -162,5 +167,16 @@ export default class Application
             debug: this.debug,
             time: this.time
         })
+    }
+
+    /**
+     * Update
+     */
+    update()
+    {
+        this.camera.update()
+        this.physics.update()
+        this.renderer.update()
+        this.particles.update()
     }
 }

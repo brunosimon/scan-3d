@@ -200,22 +200,6 @@ export default class Renderer
         // this.postProcess.composer.addPass(this.postProcess.finalPass)
 
         /**
-         * Time tick event
-         */
-        this.time.on('tick', () =>
-        {
-            // Update passes
-            if(this.postProcess.finalPass.animated)
-            {
-                this.postProcess.finalPass.material.uniforms.uTime.value = this.time.elapsed
-            }
-
-            // Render
-            this.postProcess.composer.render()
-            // this.instance.render(this.scene, this.camera.instance)
-        })
-
-        /**
          * Resize event
          */
         this.sizes.on('resize', () =>
@@ -223,5 +207,18 @@ export default class Renderer
             this.instance.setSize(this.config.width, this.config.height)
             this.postProcess.composer.setSize(this.config.width, this.config.height)
         })
+    }
+
+    update()
+    {
+        // Update passes
+        if(this.postProcess.finalPass.animated)
+        {
+            this.postProcess.finalPass.material.uniforms.uTime.value = this.time.elapsed
+        }
+
+        // Render
+        this.postProcess.composer.render()
+        // this.instance.render(this.scene, this.camera.instance)
     }
 }

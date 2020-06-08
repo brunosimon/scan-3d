@@ -58,13 +58,6 @@ export default class Camera
             this.instance.aspect = this.config.width / this.config.height
             this.instance.updateProjectionMatrix()
         })
-
-        // Time tick
-        this.time.on('tick', () =>
-        {
-            this.instance.position.copy(this[this.mode].instance.position)
-            this.instance.quaternion.copy(this[this.mode].instance.quaternion)
-        })
     }
 
     setFirstPersonCamera()
@@ -94,5 +87,14 @@ export default class Camera
         {
             this.debugCamera.activate()
         }
+    }
+
+    update()
+    {
+        this.debugCamera.update()
+        this.firstPersonCamera.update()
+
+        this.instance.position.copy(this[this.mode].instance.position)
+        this.instance.quaternion.copy(this[this.mode].instance.quaternion)
     }
 }

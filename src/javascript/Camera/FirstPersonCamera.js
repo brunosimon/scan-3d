@@ -60,18 +60,18 @@ export default class FirstPersonCamera
         }
 
         this.interactionTarget.addEventListener('mousedown', this.mouse.mouseDown)
+    }
 
-        this.time.on('tick', () =>
+    update()
+    {
+        if(!this.active)
         {
-            if(!this.active)
-            {
-                return
-            }
+            return
+        }
 
-            this.rotation.value.lerp(this.rotation.target, this.rotation.easing * this.time.delta)
-            this.instance.rotation.x = this.rotation.value.x
-            this.instance.rotation.y = this.rotation.value.y
-        })
+        this.rotation.value.lerp(this.rotation.target, this.rotation.easing * this.time.delta)
+        this.instance.rotation.x = this.rotation.value.x
+        this.instance.rotation.y = this.rotation.value.y
     }
 
     activate()
