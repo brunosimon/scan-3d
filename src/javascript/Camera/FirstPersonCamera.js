@@ -57,6 +57,8 @@ export default class FirstPersonCamera
 
             this.rotation.target.y += this.drag.delta.x * this.drag.sensitivity
             this.rotation.target.x += this.drag.delta.y * this.drag.sensitivity
+
+            this.rotation.target.x = Math.min(Math.max(this.rotation.target.x, - Math.PI * 0.5), Math.PI * 0.5)
         }
 
         this.interactionTarget.addEventListener('mousedown', this.mouse.mouseDown)
