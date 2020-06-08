@@ -8,6 +8,7 @@ import Sizes from './Utils/Sizes.js'
 import Camera from './Camera/index.js'
 import Renderer from './Renderer.js'
 import Particles from './Particles.js'
+import Physics from './Physics.js'
 
 export default class Application
 {
@@ -35,6 +36,7 @@ export default class Application
         this.setCamera()
         this.setRenderer()
         this.setParticles()
+        this.setPhysics()
     }
 
     /**
@@ -149,5 +151,16 @@ export default class Application
             renderer: this.renderer
         })
         this.scene.add(this.particles.container)
+    }
+
+    /**
+     * Set physics
+     */
+    setPhysics()
+    {
+        this.physics = new Physics({
+            debug: this.debug,
+            time: this.time
+        })
     }
 }

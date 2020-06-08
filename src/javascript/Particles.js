@@ -24,7 +24,7 @@ export default class Particles
             this.debug.Register({
                 type: 'folder',
                 label: 'particles',
-                open: true
+                open: false
             })
         }
 

@@ -17,7 +17,7 @@ export default class FlowFieldMap
             this.debug.Register({
                 type: 'folder',
                 label: 'flowField',
-                open: true
+                open: false
             })
         }
 
