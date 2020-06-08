@@ -16,16 +16,18 @@ export default class FirstPersonCamera
         this.instance.position.y = this.eyeElevation
         this.instance.rotation.order = 'YXZ'
 
+        this.rotation = {}
+        this.rotation.target = new THREE.Vector2()
+        this.rotation.value = new THREE.Vector2()
+        this.rotation.easing = 0.003
+
         this.drag = {}
         this.drag.previous = new THREE.Vector2()
         this.drag.current = new THREE.Vector2()
         this.drag.delta = new THREE.Vector2()
         this.drag.sensitivity = 0.002
 
-        this.rotation = {}
-        this.rotation.target = new THREE.Vector2()
-        this.rotation.value = new THREE.Vector2()
-        this.rotation.easing = 0.003
+        this.interactionTarget.style.cursor = 'grab'
 
         this.mouse = {}
         this.mouse.mouseDown = (_event) =>
@@ -38,11 +40,15 @@ export default class FirstPersonCamera
             this.drag.current.x = _event.clientX
             this.drag.current.y = _event.clientY
 
+            this.interactionTarget.style.cursor = 'grabbing'
+
             window.addEventListener('mouseup', this.mouse.mouseUp)
             window.addEventListener('mousemove', this.mouse.mouseMove)
         }
         this.mouse.mouseUp = () =>
         {
+            this.interactionTarget.style.cursor = 'grab'
+
             window.removeEventListener('mouseup', this.mouse.mouseUp)
             window.removeEventListener('mousemove', this.mouse.mouseMove)
         }
