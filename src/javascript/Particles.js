@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import scan1Source from './resources/scans/8.ply'
+import scan1Source from './resources/scans/coulee-verte-backward-pixel-1.ply'
 import ParticlesMaterial from './Materials/ParticlesMaterial.js'
 import FlowFieldMap from './FlowFieldMap.js'
 import FlowFieldParticlesMaterial from './Materials/FlowFieldParticlesMaterial.js'

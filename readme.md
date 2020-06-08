@@ -1,10 +1,15 @@
 # Scan 3D
 
 ## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+
+- Download and install [Node.js](https://nodejs.org/en/download/)
+- Download and install [Git LFS](https://git-lfs.github.com/)
 
 ``` bash
+# Fetch and update LFS files
+git lfs fetch
+git lfs update
+
 # Install dependencies (only for first time)
 npm i
 
