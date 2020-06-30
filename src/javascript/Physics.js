@@ -7,7 +7,6 @@ export default class Physics
         // Options
         this.debug = _options.debug
         this.time = _options.time
-        this.scale = 100
 
         // Debug
         if(this.debug)
@@ -21,10 +20,37 @@ export default class Physics
 
         // Set up
         this.staticBodies = []
+        this.scale = 100
+        this.renderDistance = 2000
+        this.renderSize = 600
+        this.visible = false
 
         this.setEnvironment()
         this.setPlayer()
         this.setRender()
+
+        // Debug
+        if(this.debug)
+        {
+            this.debug.Register({
+                folder: 'physics',
+                type: 'checkbox',
+                label: 'visible',
+                object: this,
+                property: 'visible',
+                onChange: () =>
+                {
+                    if(this.visible)
+                    {
+                        this.render.element.appendChild(this.render.canvas)
+                    }
+                    else
+                    {
+                        this.render.element.removeChild(this.render.canvas)
+                    }
+                }
+            })
+        }
     }
 
     setForLevel(_level)
@@ -99,20 +125,25 @@ export default class Physics
             engine: this.engine
         })
 
+        if(!this.visible)
+        {
+            this.render.element.removeChild(this.render.canvas)
+        }
+
         this.render.canvas.style.position = 'fixed'
         this.render.canvas.style.top = 0
         this.render.canvas.style.left = 0
 
         this.render.options.hasBounds = true
-        this.render.options.width = 800
-        this.render.options.height = 800
-        this.render.bounds.min.x = - 2000
-        this.render.bounds.max.x = 2000
-        this.render.bounds.min.y = - 2000
-        this.render.bounds.max.y = 2000
+        this.render.options.width = this.renderSize
+        this.render.options.height = this.renderSize
+        this.render.bounds.min.x = - this.renderDistance
+        this.render.bounds.max.x = this.renderDistance
+        this.render.bounds.min.y = - this.renderDistance
+        this.render.bounds.max.y = this.renderDistance
 
-        this.render.canvas.width = 800
-        this.render.canvas.height = 800
+        this.render.canvas.width = this.renderSize
+        this.render.canvas.height = this.renderSize
     }
 
     moveToAngle(_angle, _running)
@@ -124,8 +155,15 @@ export default class Physics
     update()
     {
         Engine.update(this.engine, this.time.delta, 1)
-        Render.world(this.render)
-        // Render.lookAt(this.render, this.player)
-        // Render.lookAt(this.render, this.player)
+
+        if(this.visible)
+        {
+            this.render.bounds.min.x = this.player.body.position.x - this.renderDistance
+            this.render.bounds.max.x = this.player.body.position.x + this.renderDistance
+            this.render.bounds.min.y = this.player.body.position.y - this.renderDistance
+            this.render.bounds.max.y = this.player.body.position.y + this.renderDistance
+
+            Render.world(this.render)
+        }
     }
 }
