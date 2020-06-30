@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import FirstPersonCamera from './FirstPersonCamera.js'
+import DefaultCamera from './DefaultCamera.js'
 import DebugCamera from './DebugCamera.js'
 
 export default class Camera
@@ -14,7 +14,7 @@ export default class Camera
         this.interactionTarget = _options.interactionTarget
 
         // Set up
-        this.mode = 'firstPersonCamera'
+        this.mode = 'defaultCamera'
 
         // if(!this.debug)
         // {
@@ -36,12 +36,12 @@ export default class Camera
                 label: 'mode',
                 object: this,
                 property: 'mode',
-                options: ['firstPersonCamera', 'debugCamera']
+                options: ['defaultCamera', 'debugCamera']
             })
         }
 
         this.setInstance()
-        this.setFirstPersonCamera()
+        this.setDefaultCamera()
         this.setDebugCamera()
     }
 
@@ -60,19 +60,14 @@ export default class Camera
         })
     }
 
-    setFirstPersonCamera()
+    setDefaultCamera()
     {
         // Set up
-        this.firstPersonCamera = new FirstPersonCamera({
+        this.defaultCamera = new DefaultCamera({
             time: this.time,
             baseInstance: this.instance,
             interactionTarget: this.interactionTarget
         })
-
-        if(this.mode === 'firstPersonCamera')
-        {
-            this.firstPersonCamera.activate()
-        }
     }
 
     setDebugCamera()
@@ -92,7 +87,6 @@ export default class Camera
     update()
     {
         this.debugCamera.update()
-        this.firstPersonCamera.update()
 
         this.instance.position.copy(this[this.mode].instance.position)
         this.instance.quaternion.copy(this[this.mode].instance.quaternion)

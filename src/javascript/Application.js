@@ -9,6 +9,8 @@ import Camera from './Camera/index.js'
 import Renderer from './Renderer.js'
 import Particles from './Particles.js'
 import Physics from './Physics.js'
+import Controls from './Controls.js'
+import Levels from './Levels.js'
 
 export default class Application
 {
@@ -37,6 +39,8 @@ export default class Application
         this.setRenderer()
         this.setParticles()
         this.setPhysics()
+        this.setControls()
+        this.setLevels()
 
         this.time.on('tick', () =>
         {
@@ -170,13 +174,41 @@ export default class Application
     }
 
     /**
+     * Set controls
+     */
+    setControls()
+    {
+        this.controls = new Controls({
+            time: this.time,
+            interactionTarget: this.targetElement,
+            physics: this.physics,
+            camera: this.camera
+        })
+    }
+
+    /**
+     * Set levels
+     */
+    setLevels()
+    {
+        this.levels = new Levels({
+            config: this.config,
+            debug: this.debug,
+            time: this.time,
+            physics: this.physics,
+            particles: this.particles
+        })
+    }
+
+    /**
      * Update
      */
     update()
     {
         this.camera.update()
         this.physics.update()
-        this.renderer.update()
         this.particles.update()
+        this.controls.update()
+        this.renderer.update()
     }
 }
