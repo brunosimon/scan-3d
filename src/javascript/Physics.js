@@ -38,7 +38,7 @@ export default class Physics
                 case 'rectangle':
                     body = Bodies.rectangle(
                         _shapeSource.position.x * this.scale,
-                        _shapeSource.position.y * this.scale,
+                        - _shapeSource.position.y * this.scale,
                         _shapeSource.size.x * this.scale,
                         _shapeSource.size.y * this.scale
                     )
@@ -47,7 +47,7 @@ export default class Physics
                 case 'circle':
                     body = Bodies.circle(
                         _shapeSource.position.x * this.scale,
-                        _shapeSource.position.y * this.scale,
+                        - _shapeSource.position.y * this.scale,
                         _shapeSource.radius * this.scale
                     )
                     break
@@ -85,6 +85,7 @@ export default class Physics
         this.player.baseSpeed = 0.015
         this.player.runninSpeed = this.player.baseSpeed * 3
         this.player.body = Bodies.circle(0, 0, 1 * this.scale)
+        // this.player.body = Bodies.rectangle(0, 0, 1 * this.scale, 1 * this.scale)
         this.player.body.frictionAir = 0.1
 
         World.add(this.world, this.player.body)
@@ -117,7 +118,7 @@ export default class Physics
     moveToAngle(_angle, _running)
     {
         const speed = _running ? this.player.runninSpeed : this.player.baseSpeed
-        Body.applyForce(this.player.body, this.player.body.position, Vector.create(Math.cos(_angle) * speed, Math.sin(_angle) * speed))
+        Body.applyForce(this.player.body, this.player.body.position, Vector.create(Math.sin(_angle) * speed, Math.cos(_angle) * speed))
     }
 
     update()

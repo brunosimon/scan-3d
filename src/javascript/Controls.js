@@ -20,8 +20,8 @@ export default class Controls
         this.player = {}
 
         this.player.rotation = {}
-        this.player.rotation.target = new THREE.Vector2()
-        this.player.rotation.value = new THREE.Vector2()
+        this.player.rotation.target = new THREE.Vector2(0, Math.PI * 0.5)
+        this.player.rotation.value = this.player.rotation.target.clone()
         this.player.rotation.easing = 0.003
 
         this.player.eyeSight = {}
@@ -67,8 +67,8 @@ export default class Controls
             this.drag.delta.y = this.drag.current.y - this.drag.previous.y
 
             // Update player
-            this.player.rotation.target.y += this.drag.delta.x * this.drag.sensitivity
-            this.player.rotation.target.x += this.drag.delta.y * this.drag.sensitivity
+            this.player.rotation.target.y -= this.drag.delta.x * this.drag.sensitivity
+            this.player.rotation.target.x -= this.drag.delta.y * this.drag.sensitivity
 
             this.player.rotation.target.x = Math.min(Math.max(this.player.rotation.target.x, - Math.PI * 0.5), Math.PI * 0.5)
         }
@@ -149,53 +149,37 @@ export default class Controls
 
         // Update camera rotation
         this.camera.defaultCamera.instance.rotation.x = this.player.rotation.value.x
-        this.camera.defaultCamera.instance.rotation.y = this.player.rotation.value.y
+        this.camera.defaultCamera.instance.rotation.y = this.player.rotation.value.y - Math.PI * 0.5
 
         // Update physics
         const baseAngle = this.player.rotation.value.y
-        let offsetAngle = null
+        const direction = new THREE.Vector2()
 
-        if(this.keyboard.up && this.keyboard.right)
+        if(this.keyboard.right)
         {
-            offsetAngle = Math.PI * 0.75
+            direction.x = 1
         }
-        else if(this.keyboard.right && this.keyboard.down)
+        if(this.keyboard.left)
         {
-            offsetAngle = Math.PI * 0.25
+            direction.x = - 1
         }
-        else if(this.keyboard.down && this.keyboard.left)
+        if(this.keyboard.up)
         {
-            offsetAngle = - Math.PI * 0.25
+            direction.y = 1
         }
-        else if(this.keyboard.left && this.keyboard.up)
+        if(this.keyboard.down)
         {
-            offsetAngle = - Math.PI * 0.75
-        }
-        else if(this.keyboard.up)
-        {
-            offsetAngle = Math.PI
-        }
-        else if(this.keyboard.right)
-        {
-            offsetAngle = Math.PI * 0.5
-        }
-        else if(this.keyboard.down)
-        {
-            offsetAngle = 0
-        }
-        else if(this.keyboard.left)
-        {
-            offsetAngle = - Math.PI * 0.5
+            direction.y = - 1
         }
 
-        if(offsetAngle !== null)
+        if(direction.length())
         {
-            this.physics.moveToAngle(baseAngle + offsetAngle, this.keyboard.running)
+            this.physics.moveToAngle(baseAngle + direction.angle(), this.keyboard.running)
         }
 
         // Update camera position
-        this.camera.defaultCamera.instance.position.x = this.physics.player.body.position.y / this.physics.scale
-        this.camera.defaultCamera.instance.position.z = this.physics.player.body.position.x / this.physics.scale
+        this.camera.defaultCamera.instance.position.x = this.physics.player.body.position.x / this.physics.scale
+        this.camera.defaultCamera.instance.position.z = this.physics.player.body.position.y / this.physics.scale
         this.camera.defaultCamera.instance.position.y = this.player.eyeSight.value.y
     }
 }
