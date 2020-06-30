@@ -111,8 +111,43 @@ export default class Physics
         this.player.baseSpeed = 0.015
         this.player.runninSpeed = this.player.baseSpeed * 3
         this.player.body = Bodies.circle(0, 0, 1 * this.scale)
-        // this.player.body = Bodies.rectangle(0, 0, 1 * this.scale, 1 * this.scale)
         this.player.body.frictionAir = 0.1
+
+        if(this.debug)
+        {
+            this.debug.Register({
+                folder: 'physics',
+                type: 'range',
+                min: 0,
+                max: 0.2,
+                step: 0.001,
+                label: 'playerBaseSpeed',
+                object: this.player,
+                property: 'baseSpeed'
+            })
+
+            this.debug.Register({
+                folder: 'physics',
+                type: 'range',
+                min: 0,
+                max: 0.2,
+                step: 0.001,
+                label: 'playerRunninSpeed',
+                object: this.player,
+                property: 'runninSpeed'
+            })
+
+            this.debug.Register({
+                folder: 'physics',
+                type: 'range',
+                min: 0,
+                max: 1,
+                step: 0.001,
+                label: 'playerFrictionAir',
+                object: this.player.body,
+                property: 'frictionAir'
+            })
+        }
 
         World.add(this.world, this.player.body)
     }
