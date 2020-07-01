@@ -50,6 +50,7 @@ export default class Controls
             window.addEventListener('mouseup', this.drag.mouseUp)
             window.addEventListener('mousemove', this.drag.mouseMove)
         }
+
         this.drag.mouseUp = () =>
         {
             this.interactionTarget.style.cursor = 'grab'
@@ -57,6 +58,7 @@ export default class Controls
             window.removeEventListener('mouseup', this.drag.mouseUp)
             window.removeEventListener('mousemove', this.drag.mouseMove)
         }
+
         this.drag.mouseMove = (_event) =>
         {
             this.drag.previous.copy(this.drag.current)

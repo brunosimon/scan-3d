@@ -13,6 +13,7 @@ export default class Levels
         this.physics = _options.physics
         this.particles = _options.particles
 
+        // Set up
         this.loader = new CustomPLYLoader()
 
         this.setList()

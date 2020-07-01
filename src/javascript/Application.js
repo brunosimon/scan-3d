@@ -11,6 +11,7 @@ import Particles from './Particles.js'
 import Physics from './Physics.js'
 import Controls from './Controls.js'
 import Levels from './Levels.js'
+import Fullscreen from './Fullscreen.js'
 
 export default class Application
 {
@@ -39,6 +40,7 @@ export default class Application
         this.setRenderer()
         this.setParticles()
         this.setPhysics()
+        this.setFullscreen()
         this.setControls()
         this.setLevels()
 
@@ -170,6 +172,16 @@ export default class Application
         this.physics = new Physics({
             debug: this.debug,
             time: this.time
+        })
+    }
+
+    /**
+     * Set fullscreen
+     */
+    setFullscreen()
+    {
+        this.fullscreen = new Fullscreen({
+            targetElement: this.targetElement
         })
     }
 
