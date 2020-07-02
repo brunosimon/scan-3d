@@ -1,6 +1,8 @@
 import CustomPLYLoader from './CustomPLYLoader.js'
-import couleeVerteGeometrySource from './resources/scans/coulee-verte-geometry.ply'
-import couleeVerteCollisionSource from './resources/scans/coulee-verte-collision.json'
+import couleeVerteGeometrySource from './resources/scans/coulee-verte/geometry.ply'
+import couleeVerteCollisionSource from './resources/scans/coulee-verte/collision.json'
+import squareDeMontsourisGeometrySource from './resources/scans/square-de-montsouris/geometry.ply'
+import squareDeMontsourisCollisionSource from './resources/scans/square-de-montsouris/collision.json'
 
 export default class Levels
 {
@@ -26,7 +28,13 @@ export default class Levels
             {
                 geometrySource: couleeVerteGeometrySource,
                 geometry: null,
-                collisionSource: couleeVerteCollisionSource,
+                collisionSource: squareDeMontsourisCollisionSource,
+                loaded: false
+            },
+            {
+                geometrySource: squareDeMontsourisGeometrySource,
+                geometry: null,
+                collisionSource: squareDeMontsourisCollisionSource,
                 loaded: false
             }
         ]
