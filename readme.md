@@ -52,13 +52,27 @@ npm run build
 
 - Import the model in Blender
 - Merge vertices by distance
-- Rotate the scene (Z postive = up, Y positive = forward)
+- Rotate the scene (Z positive = up, Y positive = forward)
 - Fix incorrect areas (floor, ceiling, reflections)
 - Create a man reference (can be a simple box 180cm high) and scale the model accordingly
 - Run `/resources/blender/textureToVertexColor/textureToVertexColors.py` to convert texture to vertex color (you might need to change the image name in the last line of the script)
 - Export as PLY
-- Use those settings<br><img src="./resources/images/03-export-ply-01.png" width="220">
-- Remove faces from PLY file (we only need the vertices with their color)<br><img src="./resources/images/03-export-ply-02.png" width="360">
+- Use those settings<br><img src="./resources/images/03-export-ply-01.png" width="200">
+- Optimize the PLY using the python script `/resources/python/optimise.py`
+
+```
+# Default
+python3 optimise.py --path ./example.ply
+
+# Change float precision (default: 9)
+python3 optimise.py --path ./example.ply --precision 4
+
+# Remove some points (default: 1)
+python3 optimise.py --path ./example.ply --reduce 0.5
+
+# Add points limit usually for testing (default: 1000000000)
+python3 optimise.py --path ./example.ply --limit 300
+```
 
 #### Collision primitive
 
