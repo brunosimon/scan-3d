@@ -23,7 +23,7 @@ export default class Physics
         this.scale = 100
         this.renderDistance = 2000
         this.renderSize = 600
-        this.visible = false
+        this.visible = true
 
         this.setEnvironment()
         this.setPlayer()
@@ -84,6 +84,9 @@ export default class Physics
                 // Set as static
                 Body.setStatic(body, true)
 
+                // Rotate
+                Body.rotate(body, - _shapeSource.rotation)
+
                 // Add and save
                 World.add(this.world, body)
                 this.staticBodies.push(body)
@@ -110,11 +113,23 @@ export default class Physics
         this.player = {}
         this.player.baseSpeed = 0.015
         this.player.runninSpeed = this.player.baseSpeed * 3
-        this.player.body = Bodies.circle(0, 0, 1 * this.scale)
+        this.player.body = Bodies.circle(0, 0, 0.5 * this.scale)
+        this.player.body.mass = 25
         this.player.body.frictionAir = 0.1
 
         if(this.debug)
         {
+            this.debug.Register({
+                folder: 'physics',
+                type: 'range',
+                min: 0,
+                max: 100,
+                step: 0.1,
+                label: 'playerMass',
+                object: this.player.body,
+                property: 'mass'
+            })
+
             this.debug.Register({
                 folder: 'physics',
                 type: 'range',
