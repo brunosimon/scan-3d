@@ -144,15 +144,15 @@ export default class Particles
     setMaterial()
     {
         this.material = new ParticlesMaterial()
-        this.material.uniforms.uSize.value = 25 * this.config.pixelRatio
+        this.material.uniforms.uSize.value = 23 * this.config.pixelRatio
         this.material.uniforms.uSizeAboveMultiplier.value = 7
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
         this.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
-        this.material.uniforms.uColorOffset.value = new THREE.Vector3()
-        this.material.uniforms.uColorBrightness.value = 0
-        this.material.uniforms.uColorContrast.value = 1.0
+        this.material.uniforms.uColorOffset.value = new THREE.Vector3(0.046, 0.025, 0.035)
+        this.material.uniforms.uColorBrightness.value = - 0.24
+        this.material.uniforms.uColorContrast.value = 1.14
         this.material.uniforms.uDistanceAttenuationMultiplier.value = 0.1
         this.material.uniforms.uDistanceAttenuationOffset.value = 10
 
@@ -237,7 +237,7 @@ export default class Particles
                 folder: 'particles',
                 type: 'range',
                 label: 'uColorBrightness',
-                min: 0,
+                min: - 1,
                 max: 1,
                 step: 0.001,
                 object: this.material.uniforms.uColorBrightness,

@@ -96,7 +96,7 @@ export default class Renderer
          */
         this.postProcess.bloomPass = new UnrealBloomPass(new THREE.Vector2(this.config.width, this.config.height), 1.5, 0.4, 0.85)
         this.postProcess.bloomPass.threshold = 0
-        this.postProcess.bloomPass.strength = 0.5
+        this.postProcess.bloomPass.strength = 1
         this.postProcess.bloomPass.radius = 0
 
         if(this.debug)

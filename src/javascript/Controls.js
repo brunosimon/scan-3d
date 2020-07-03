@@ -37,7 +37,7 @@ export default class Controls
         this.player.rotation.easing = 0.003
 
         this.player.eyeSight = {}
-        this.player.eyeSight.standing = 1.68
+        this.player.eyeSight.standing = 1.65
         this.player.eyeSight.crouching = 1
         this.player.eyeSight.value = Ola({ y: this.player.eyeSight.standing }, 1000)
     }

@@ -68,6 +68,10 @@ export default class Physics
                         _shapeSource.size.x * this.scale,
                         _shapeSource.size.y * this.scale
                     )
+
+                    // Rotate
+                    Body.rotate(body, - _shapeSource.rotation)
+
                     break
 
                 case 'circle':
@@ -81,11 +85,10 @@ export default class Physics
 
             if(body)
             {
+                body.render.fillStyle = '#ff2c65'
+
                 // Set as static
                 Body.setStatic(body, true)
-
-                // Rotate
-                Body.rotate(body, - _shapeSource.rotation)
 
                 // Add and save
                 World.add(this.world, body)
@@ -116,6 +119,7 @@ export default class Physics
         this.player.body = Bodies.circle(0, 0, 0.5 * this.scale)
         this.player.body.mass = 25
         this.player.body.frictionAir = 0.1
+        this.player.body.render.fillStyle = '#60efff'
 
         if(this.debug)
         {
@@ -172,7 +176,11 @@ export default class Physics
         // Render
         this.render = Render.create({
             element: document.body,
-            engine: this.engine
+            engine: this.engine,
+            options:
+            {
+                wireframes: false
+            }
         })
 
         if(!this.visible)
