@@ -14,7 +14,7 @@ export default class Physics
             this.debug.Register({
                 type: 'folder',
                 label: 'physics',
-                open: true
+                open: false
             })
         }
 

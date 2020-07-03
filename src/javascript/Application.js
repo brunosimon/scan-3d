@@ -191,6 +191,7 @@ export default class Application
     setControls()
     {
         this.controls = new Controls({
+            debug: this.debug,
             time: this.time,
             interactionTarget: this.targetElement,
             physics: this.physics,

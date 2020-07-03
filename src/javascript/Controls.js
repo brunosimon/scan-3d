@@ -5,14 +5,26 @@ export default class Controls
 {
     constructor(_options)
     {
+        this.debug = _options.debug
         this.time = _options.time
         this.interactionTarget = _options.interactionTarget
         this.physics = _options.physics
         this.camera = _options.camera
 
+        // Debug
+        if(this.debug)
+        {
+            this.debug.Register({
+                type: 'folder',
+                label: 'controls',
+                open: true
+            })
+        }
+
         this.setPlayer()
         this.setDrag()
         this.setKeyboard()
+        this.setWriggle()
     }
 
     setPlayer()
@@ -47,6 +59,8 @@ export default class Controls
 
             this.interactionTarget.style.cursor = 'grabbing'
 
+            this.wriggle.strength.set({ value: 0 }, 1000)
+
             window.addEventListener('mouseup', this.drag.mouseUp)
             window.addEventListener('mousemove', this.drag.mouseMove)
         }
@@ -54,6 +68,8 @@ export default class Controls
         this.drag.mouseUp = () =>
         {
             this.interactionTarget.style.cursor = 'grab'
+
+            this.wriggle.strength.set({ value: 1 }, 4000)
 
             window.removeEventListener('mouseup', this.drag.mouseUp)
             window.removeEventListener('mousemove', this.drag.mouseMove)
@@ -144,14 +160,71 @@ export default class Controls
         })
     }
 
+    setWriggle()
+    {
+        this.wriggle = {}
+        this.wriggle.amplitude = 0.4
+        this.wriggle.strength = Ola({ value: 1 }, 2000)
+        this.wriggle.xFrequency = 0.0006123
+        this.wriggle.yFrequency = 0.0005
+        this.wriggle.x = 0
+        this.wriggle.y = 0
+
+        if(this.debug)
+        {
+            this.debug.Register({
+                folder: 'controls',
+                type: 'range',
+                label: 'wriggleAmplitude',
+                min: 0,
+                max: 3,
+                object: this.wriggle,
+                property: 'amplitude'
+            })
+
+            this.debug.Register({
+                folder: 'controls',
+                type: 'range',
+                label: 'wriggleXFrequency',
+                min: 0,
+                max: 0.01,
+                step: 0.0001,
+                object: this.wriggle,
+                property: 'xFrequency'
+            })
+
+            this.debug.Register({
+                folder: 'controls',
+                type: 'range',
+                label: 'wriggleYFrequency',
+                min: 0,
+                max: 0.01,
+                step: 0.0001,
+                object: this.wriggle,
+                property: 'yFrequency'
+            })
+        }
+    }
+
     update()
     {
+        // Wriggle
+        this.wriggle.y = Math.sin(this.time.elapsed * this.wriggle.yFrequency * 1)
+        this.wriggle.y *= Math.sin(this.time.elapsed * this.wriggle.yFrequency * 0.5) / 3
+        this.wriggle.y *= Math.sin(this.time.elapsed * this.wriggle.yFrequency * 0.25) / 3
+        this.wriggle.y *= this.wriggle.amplitude * this.wriggle.strength.value
+
+        this.wriggle.x = Math.sin(this.time.elapsed * this.wriggle.xFrequency * 1)
+        this.wriggle.x *= Math.sin(this.time.elapsed * this.wriggle.xFrequency * 0.5) / 3
+        this.wriggle.x *= Math.sin(this.time.elapsed * this.wriggle.xFrequency * 0.25) / 3
+        this.wriggle.x *= this.wriggle.amplitude * this.wriggle.strength.value
+
         // Update rotation
         this.player.rotation.value.lerp(this.player.rotation.target, this.player.rotation.easing * this.time.delta)
 
         // Update camera rotation
-        this.camera.defaultCamera.instance.rotation.x = this.player.rotation.value.x
-        this.camera.defaultCamera.instance.rotation.y = this.player.rotation.value.y - Math.PI * 0.5
+        this.camera.defaultCamera.instance.rotation.x = this.player.rotation.value.x + this.wriggle.x
+        this.camera.defaultCamera.instance.rotation.y = this.player.rotation.value.y - Math.PI * 0.5 + this.wriggle.y
 
         // Update physics
         const baseAngle = this.player.rotation.value.y
