@@ -50,7 +50,7 @@ npm run build
 
 #### Geometry
 
-- Import the model in Blender
+- Import the OBJ in Blender with default settings
 - Merge vertices by distance
 - Rotate the scene (Z positive = up, Y positive = forward)
 - Fix incorrect areas (floor, ceiling, reflections)
@@ -65,7 +65,7 @@ npm run build
 python3 optimise.py --path ./example.ply
 
 # Change float precision (default: 9)
-python3 optimise.py --path ./example.ply --precision 4
+python3 optimise.py --path ./example.ply --precision 5
 
 # Remove some points (default: 1)
 python3 optimise.py --path ./example.ply --reduce 0.5
