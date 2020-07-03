@@ -1,8 +1,14 @@
 import CustomPLYLoader from './CustomPLYLoader.js'
-import couleeVerteGeometrySource from './resources/scans/coulee-verte/geometry.ply'
-import couleeVerteCollisionSource from './resources/scans/coulee-verte/collision.json'
-import squareDeMontsourisGeometrySource from './resources/scans/square-de-montsouris/geometry.ply'
-import squareDeMontsourisCollisionSource from './resources/scans/square-de-montsouris/collision.json'
+import couleeVerte1GeometrySource from './resources/scans/01-coulee-verte-1/geometry.ply'
+import couleeVerte1CollisionSource from './resources/scans/01-coulee-verte-1/collision.json'
+import couleeVerte2GeometrySource from './resources/scans/01-coulee-verte-2/geometry.ply'
+import couleeVerte2CollisionSource from './resources/scans/01-coulee-verte-2/collision.json'
+import squareDeMontsouris1GeometrySource from './resources/scans/02-square-de-montsouris-1/geometry.ply'
+import squareDeMontsouris1CollisionSource from './resources/scans/02-square-de-montsouris-1/collision.json'
+import squareDeMontsouris2GeometrySource from './resources/scans/02-square-de-montsouris-2/geometry.ply'
+import squareDeMontsouris2CollisionSource from './resources/scans/02-square-de-montsouris-2/collision.json'
+import citeFleurie1GeometrySource from './resources/scans/03-cite-fleurie-1/geometry.ply'
+import citeFleurie1CollisionSource from './resources/scans/03-cite-fleurie-1/collision.json'
 
 export default class Levels
 {
@@ -19,22 +25,40 @@ export default class Levels
         this.loader = new CustomPLYLoader()
 
         this.setList()
-        this.go(0)
+        this.go(4)
     }
 
     setList()
     {
         this.list = [
             {
-                geometrySource: couleeVerteGeometrySource,
+                geometrySource: couleeVerte1GeometrySource,
                 geometry: null,
-                collisionSource: squareDeMontsourisCollisionSource,
+                collisionSource: couleeVerte1CollisionSource,
                 loaded: false
             },
             {
-                geometrySource: squareDeMontsourisGeometrySource,
+                geometrySource: couleeVerte2GeometrySource,
                 geometry: null,
-                collisionSource: squareDeMontsourisCollisionSource,
+                collisionSource: couleeVerte2CollisionSource,
+                loaded: false
+            },
+            {
+                geometrySource: squareDeMontsouris1GeometrySource,
+                geometry: null,
+                collisionSource: squareDeMontsouris1CollisionSource,
+                loaded: false
+            },
+            {
+                geometrySource: squareDeMontsouris2GeometrySource,
+                geometry: null,
+                collisionSource: squareDeMontsouris2CollisionSource,
+                loaded: false
+            },
+            {
+                geometrySource: citeFleurie1GeometrySource,
+                geometry: null,
+                collisionSource: citeFleurie1CollisionSource,
                 loaded: false
             }
         ]
