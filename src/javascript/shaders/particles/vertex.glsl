@@ -1,6 +1,7 @@
 uniform sampler2D uFBOTexture;
 uniform mat4 uFBOMatrix;
 uniform float uSize;
+uniform float uSizeAboveMultiplier;
 uniform float uPositionRandomness;
 uniform vec3 uColorOffset;
 uniform float uColorBrightness;
@@ -43,6 +44,7 @@ void main()
     // Size
     gl_PointSize = uSize;
     gl_PointSize *= size;
+    gl_PointSize += max(0.0, modelPosition.y - cameraPosition.y) * uSizeAboveMultiplier;
     // gl_PointSize *= fboData.a;
     gl_PointSize *= min((1.0 - fboData.a) * 10.0, fboData.a);
     gl_PointSize *= (1.0 / - viewPosition.z);

@@ -17,6 +17,7 @@ export default function()
             uFBOTexture: { value: null },
             uFBOMatrix: { value: null },
             uSize: { value: null },
+            uSizeAboveMultiplier: { value: null },
             uPositionRandomness: { value: null },
             uAlpha: { value: null },
             uColorOffset: { value: null },

@@ -145,6 +145,7 @@ export default class Particles
     {
         this.material = new ParticlesMaterial()
         this.material.uniforms.uSize.value = 25 * this.config.pixelRatio
+        this.material.uniforms.uSizeAboveMultiplier.value = 7
         this.material.uniforms.uPositionRandomness.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
@@ -164,6 +165,16 @@ export default class Particles
                 min: 1,
                 max: 100,
                 object: this.material.uniforms.uSize,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uSizeAboveMultiplier',
+                min: 0,
+                max: 20,
+                object: this.material.uniforms.uSizeAboveMultiplier,
                 property: 'value'
             })
 
