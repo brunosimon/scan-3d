@@ -19,6 +19,7 @@ export default function()
             uSize: { value: null },
             uSizeAboveMultiplier: { value: null },
             uPositionRandomness: { value: null },
+            uPositionRandomnessAboveMultiplier: { value: null },
             uAlpha: { value: null },
             uColorOffset: { value: null },
             uColorBrightness: { value: null },

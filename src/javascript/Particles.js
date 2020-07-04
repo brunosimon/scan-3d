@@ -147,6 +147,7 @@ export default class Particles
         this.material.uniforms.uSize.value = 23 * this.config.pixelRatio
         this.material.uniforms.uSizeAboveMultiplier.value = 7
         this.material.uniforms.uPositionRandomness.value = 0.02
+        this.material.uniforms.uPositionRandomnessAboveMultiplier.value = 0.02
         this.material.uniforms.uAlpha.value = 1
         this.material.uniforms.uFBOTexture.value = this.flowField.map.renderTargets.primary.texture
         this.material.uniforms.uFBOMatrix.value = this.flowField.map.space.matrix
@@ -186,6 +187,17 @@ export default class Particles
                 max: 0.3,
                 step: 0.0001,
                 object: this.material.uniforms.uPositionRandomness,
+                property: 'value'
+            })
+
+            this.debug.Register({
+                folder: 'particles',
+                type: 'range',
+                label: 'uPositionRandomnessAboveMultiplier',
+                min: 0,
+                max: 0.2,
+                step: 0.001,
+                object: this.material.uniforms.uPositionRandomnessAboveMultiplier,
                 property: 'value'
             })
 

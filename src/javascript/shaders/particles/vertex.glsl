@@ -3,6 +3,7 @@ uniform mat4 uFBOMatrix;
 uniform float uSize;
 uniform float uSizeAboveMultiplier;
 uniform float uPositionRandomness;
+uniform float uPositionRandomnessAboveMultiplier;
 uniform vec3 uColorOffset;
 uniform float uColorBrightness;
 uniform float uColorContrast;
@@ -27,9 +28,12 @@ void main()
     // Position
     vec4 modelPosition = modelMatrix * vec4(fboPosition, 1.0);
 
+    float aboveDistance = max(0.0, modelPosition.y - cameraPosition.y);
+
     float xAngle = random1d(position.x) * 3.1415 * 2.0;
     float yAngle = random1d(position.y) * 3.1415 * 2.0;
     float radius = random1d(position.z) * uPositionRandomness;
+    radius += aboveDistance * uPositionRandomnessAboveMultiplier;
 
     modelPosition.y += cos(xAngle) * radius;
     modelPosition.z += sin(xAngle) * radius;
@@ -44,7 +48,7 @@ void main()
     // Size
     gl_PointSize = uSize;
     gl_PointSize *= size;
-    gl_PointSize += max(0.0, modelPosition.y - cameraPosition.y) * uSizeAboveMultiplier;
+    gl_PointSize += aboveDistance * uSizeAboveMultiplier;
     // gl_PointSize *= fboData.a;
     gl_PointSize *= min((1.0 - fboData.a) * 10.0, fboData.a);
     gl_PointSize *= (1.0 / - viewPosition.z);
