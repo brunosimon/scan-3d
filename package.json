@@ -35,7 +35,7 @@
     "ola": "^1.1.1",
     "raw-loader": "^4.0.0",
     "style-loader": "^1.1.2",
-    "three": "^0.112.1",
+    "three": "^0.125.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
